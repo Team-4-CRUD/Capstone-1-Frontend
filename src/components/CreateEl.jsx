@@ -5,6 +5,7 @@ import { useState } from 'react'
 const CreateEl = () => {
 
     const [element, setElement] = useState({
+        PollFormId: 7,
         title: "",
         description: "",
         picture: "",
@@ -14,16 +15,17 @@ const CreateEl = () => {
            e.preventDefault();
 
         try {
-           const res =  await axios.post("http://localhost:8080/api/pollelements/",
-                element
-            );
+           const res =  await axios.post("http://localhost:8080/api/pollelements/", element);
             console.log(element);
         }
         catch (error) {
             console.error("Failed to add element", error);
         }
     }
-      const handleChange = (event) => {
+      
+    
+
+    const handleChange = (event) => {
             const { name, value } = event.target;
             setElement((prevElement) => ({
                 ...prevElement,
