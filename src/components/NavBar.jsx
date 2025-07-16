@@ -28,6 +28,11 @@ const NavBar = ({ user, onLogout }) => {
           </div>
         )}
       </div>
+      <div>
+        <Link to="/CreateEl">
+           Add Element
+        </Link>
+      </div>
     </nav>
   );
 };

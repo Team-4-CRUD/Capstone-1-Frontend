@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
+import CreateEl from "./components/CreateEl";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/CreateEl" element={<CreateEl/>}></Route>
         </Routes>
       </div>
     </div>
