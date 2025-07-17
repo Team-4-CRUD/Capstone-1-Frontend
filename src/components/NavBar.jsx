@@ -19,6 +19,12 @@ const NavBar = ({ user, onLogout }) => {
           </div>
         ) : (
           <div className="auth-links">
+            <Link to="/pollmaker" className="nav-link">
+              New Poll
+            </Link>
+            <Link to="/signup" className="nav-link">
+              My Polls
+            </Link>
             <Link to="/login" className="nav-link">
               Login
             </Link>
