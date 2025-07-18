@@ -6,67 +6,57 @@ import axios from "axios";
 const API_BASE = "http://localhost:8080/api";
 
 const PollMaker = () => {
+  
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-  });
-
-  const [pollElements, setPollElements] = useState({
     option: "",
     info: "",
     picture: "",
   });
 
-  const [error, setError] = useState({
-    title: "",
-    description: "",
-  });
+  // const [pollElements, setPollElements] = useState({
+  //   option: "",
+  //   info: "",
+  //   picture: "",
+  // });
+
+  // const [error, setError] = useState({
+  //   title: "",
+  //   description: "",
+  // });
 
   // const [apiError, setApiError] = useState("");
   // const [published, setPublished] = useState("");
   // const [selectedPoll, setSelectedPoll] = useState("");
   // const [polls, setPolls] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   
 
-  const handleDeletePoll = (e) => {
-    setPublished((prev) => prev.filter((poll) => poll.id !== id));
-  };
+  // const handleDeletePoll = (e) => {
+  //   setPublished((prev) => prev.filter((poll) => poll.id !== id));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    useEffect(() => {
-      const fetchPolls = async () => {
+    
         try {
-          const { data } = await axios.get(`${API_BASE}/PollForm`);
-          setPolls(data);
+          const res  = await axios.post(`${API_BASE}/PollForm`, formData);
+          console.log(formData);
         } catch (err) {
           console.error("Error fetching polls:", err);
         }
-      };
-      fetchPolls();
-    }, []);
-
-    useEffect(() => {
-      const fetchPollElements = async () => {
-        try {
-          const { data } = await axios.get(`${API_BASE}/PollElements`);
-          setPollElements(data);
-        } catch (err) {
-          console.error("Error fetching poll elements:", err);
-        }
-      };
-      fetchPollElements();
-    }, []);
+     
+       
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target.value;
+    const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     // we can add a loop later that capitalizes the title once submitted
-    setPollElements((prevData) => ({ ...prevData, [name]: value }));
+    // setPollElements((prevElement) => ({ ...prevElement, [name]: value }));
   };
 
   return (
@@ -84,7 +74,7 @@ const PollMaker = () => {
             type="text"
             name="title"
             placeholder="Pick a Title"
-            value={formData.name}
+            value={formData.title}
             required
           />
           <input onChange={handleChange}
@@ -96,13 +86,6 @@ const PollMaker = () => {
           />
           <button>Allow Authenticated Users? </button>
 
-          <input onChange={handleChange}
-            type="text"
-            name="question"
-            placeholder="Question 1"
-            value={formData.question}
-            required
-          />
         </div>
 
         <div>
@@ -110,31 +93,30 @@ const PollMaker = () => {
             type="text"
             name="option"
             placeholder="Pick an Option"
-            value={pollElements.option}
+            value={formData.option}
             required
           />
           <input onChange={handleChange}
             type="text"
             name="info"
             placeholder="Write some Info"
-            value={pollElements.info}
+            value={formData.info}
             required
           />
           <input onChange={handleChange}
             type="url"
             name="picture"
             placeholder="Choose a picture"
-            value={pollElements.picture}
+            value={formData.picture}
             required
           />
         </div>
 
-        <div>
+        {/* <div>
           <input type="text" placeholder="The cards will go here" />
-        </div>
+        </div> */}
 
         <button id="submit" onClick={handleSubmit}>
-          {" "}
           Submit Poll
         </button>
       </form>
