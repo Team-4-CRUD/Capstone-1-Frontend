@@ -11,6 +11,7 @@ import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
 import ViewSoloPF from "./components/ViewSoloPF";
+import ViewAllPF from "./components/ViewAllPF";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -59,7 +60,8 @@ const App = () => {
           <Route path="/pollmaker" element={<PollMaker />} />
 
           <Route path="*" element={<NotFound />} />
-          <Route path="/ViewSoloPF" element={<ViewSoloPF />} />
+          <Route path="/ViewSoloPF/:id" element={<ViewSoloPF />} />
+          <Route path="/ViewAllPF" element={<ViewAllPF />} />
         </Routes>
       </div>
     </div>

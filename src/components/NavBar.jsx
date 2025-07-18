@@ -34,6 +34,9 @@ const NavBar = ({ user, onLogout }) => {
             <Link to="/ViewSoloPF">
                ViewForm
             </Link>
+             <Link to="/ViewAllPF">
+               ViewAllForms
+            </Link>
           </div>
         )}
       </div>
