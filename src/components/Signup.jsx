@@ -3,8 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./AuthStyles.css";
 import { API_URL } from "../shared";
+import { useAuth } from "../context/AuthContext";
 
-const Signup = ({ setUser }) => {
+const Signup = () => {
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -42,6 +44,8 @@ const Signup = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setErrors({}); // Clear previous errors before validating
+
     if (!validateForm()) {
       return;
     }
@@ -56,6 +60,8 @@ const Signup = ({ setUser }) => {
         },
         { withCredentials: true }
       );
+
+      console.log("Signup response:", response);
 
       setUser(response.data.user);
       navigate("/");

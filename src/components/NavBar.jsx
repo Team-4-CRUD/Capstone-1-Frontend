@@ -31,19 +31,11 @@ const NavBar = ({ user, onLogout }) => {
             <Link to="/signup" className="nav-link">
               Sign Up
             </Link>
-            <Link to="/ViewSoloPF">
-               ViewForm
-            </Link>
-             <Link to="/ViewAllPF">
-               ViewAllForms
+            <Link to="/polls">
+            View all your Forms
             </Link>
           </div>
         )}
-      </div>
-      <div>
-        <Link to="/CreateEl">
-           Add Element
-        </Link>
       </div>
     </nav>
   );
