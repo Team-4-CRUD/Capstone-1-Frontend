@@ -10,7 +10,7 @@ import Home from "./components/Home";
 import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
-import CreateEl from "./components/CreateEl";
+import PollForm from "./components/PollForm";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -57,9 +57,8 @@ const App = () => {
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
-              
+          <Route path="/Poll" element={<PollForm />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/CreateEl" element={<CreateEl/>}></Route>
         </Routes>
       </div>
     </div>
