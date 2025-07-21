@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
-          <Route path="/polls/:creator_id" element={<ViewAllCreatorPolls />} />
+          <Route path="/polls" element={<ViewAllCreatorPolls />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
