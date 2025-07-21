@@ -9,7 +9,7 @@ function ViewAllCreatorPolls() {
     const fetchData = async () => {
         if (!user) return;
         try {
-            const { data } = axios.get("http://localhost:8080/api/creator/my-polls", {
+            const { data } = await axios.get("http://localhost:8080/api/creator/my-polls", {
                 withCredentials: true,
             });
 
