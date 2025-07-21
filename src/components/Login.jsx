@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./AuthStyles.css";
+// import "./LoginStyles.css";
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({
@@ -75,53 +76,55 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form">
-        <h2>Login</h2>
+    <div className="testLogin">
+      <div className="auth-container">
+        <div className="auth-form">
+          <h2>Login</h2>
 
-        {errors.general && (
-          <div className="error-message">{errors.general}</div>
-        )}
+          {errors.general && (
+            <div className="error-message">{errors.general}</div>
+          )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className={errors.username ? "error" : ""}
-            />
-            {errors.username && (
-              <span className="error-text">{errors.username}</span>
-            )}
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="username">Username:</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className={errors.username ? "error" : ""}
+              />
+              {errors.username && (
+                <span className="error-text">{errors.username}</span>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={errors.password ? "error" : ""}
-            />
-            {errors.password && (
-              <span className="error-text">{errors.password}</span>
-            )}
-          </div>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={errors.password ? "error" : ""}
+              />
+              {errors.password && (
+                <span className="error-text">{errors.password}</span>
+              )}
+            </div>
 
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-        <p className="auth-link">
-          Don't have an account? <Link to="/signup">Sign up</Link>
-        </p>
+          <p className="auth-link">
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -3,11 +3,33 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Raleway", sans-serif;
+
+  /* font-family: "DM Sans"; */
 }
 
 body {
-  background-color: #fff;
+  background-color: #ffffff;
+  background-image: url("img/cool.jpg");
 }
+
+body.home {
+  background-color: #ffffff;
+  background-image: url("./img/cool.jpg");
+}
+/* SANDBOX AREA */
+/*
+body.login {
+  background-color: #ffffff;
+  background-image: url("./img/windowpup.png");
+}
+
+testLogin{
+  /* background-color: blue;
+  background-image: url("./img/windowpup.png");
+} 
+*/
+/* SANDBOX AREA */
+
 
 .title {
   color: #ffffff;
