@@ -12,6 +12,7 @@ import NotFound from "./components/NotFound";
 import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
 import { API_URL } from "./shared";
 import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+// import "./HomeStyles.css";
 
 const App = () => {
   const { user, setUser } = useAuth();
