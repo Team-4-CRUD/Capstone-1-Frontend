@@ -1,7 +1,16 @@
 import React from "react";
 import "../styles/pollForm.css";
+import { useEffect } from "react";
 
 function PollForm() {
+  useEffect(() => {
+    document.body.classList.add("poll-form-page");
+
+    return () => {
+      document.body.classList.remove("poll-form-page");
+    };
+  }, []);
+
   return (
     <div className="poll-container">
       <div className="exit-nav">
