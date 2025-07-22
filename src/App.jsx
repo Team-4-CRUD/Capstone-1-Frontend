@@ -11,9 +11,13 @@ import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
 import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
 import { API_URL } from "./shared";
+<<<<<<< HEAD
 import { useAuth, AuthProvider } from "./context/AuthContext"; // context
 import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
+=======
+import PollForm from "./components/PollForm";
+>>>>>>> origin/elian-frontend
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -53,8 +57,12 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
+<<<<<<< HEAD
           <Route path="/polls" element={<ViewAllCreatorPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
+=======
+          <Route path="/Poll" element={<PollForm />} />
+>>>>>>> origin/elian-frontend
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

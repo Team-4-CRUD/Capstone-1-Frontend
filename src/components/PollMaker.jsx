@@ -7,7 +7,10 @@ import { useNavigate } from "react-router-dom";
 const API_BASE = "http://localhost:8080/api";
 
 const PollMaker = () => {
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+>>>>>>> origin/elian-frontend
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -24,6 +27,7 @@ const PollMaker = () => {
     e.preventDefault();
 
     try {
+<<<<<<< HEAD
       const res = await axios.post(`${API_BASE}/PollForm`, formData, {
         withCredentials: true,
       });
@@ -32,6 +36,12 @@ const PollMaker = () => {
       navigate('/polls');
     } catch (err) {
       console.error("Error creating poll:", err);
+=======
+      const res = await axios.post(`${API_BASE}/PollForm`, formData);
+      console.log("Poll creaated", res.data);
+    } catch (err) {
+      console.error("Error fetching polls:", err);
+>>>>>>> origin/elian-frontend
     }
   };
 
@@ -40,16 +50,35 @@ const PollMaker = () => {
     const AddEl = [...formData.Element];
     AddEl[index] = {
       ...AddEl[index],
+<<<<<<< HEAD
       [name]: value
     }
+=======
+      [name]: value,
+    };
+>>>>>>> origin/elian-frontend
     if (name === "title" || name === "description") {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
+<<<<<<< HEAD
         Element: AddEl
       }));
     }
+=======
+        Element: AddEl,
+      }));
+    }
+  };
+
+  const handleAddElement = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      Element: [...prevData.Element, { option: "", info: "", picture: "" }],
+    }));
+    console.log();
+>>>>>>> origin/elian-frontend
   };
 
   const handleAddElement = () => {
@@ -94,7 +123,10 @@ const PollMaker = () => {
           <button>Allow Authenticated Users? </button>
         </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/elian-frontend
         {formData.Element.map((el, idx) => (
           <div key={idx}>
             <input
@@ -124,7 +156,13 @@ const PollMaker = () => {
           </div>
         ))}
         <input type="submit" />
+<<<<<<< HEAD
         <button type="buttom" onClick={handleAddElement}> Add Option </button>
+=======
+        <button type="button" onClick={handleAddElement}>
+          Add Option
+        </button>
+>>>>>>> origin/elian-frontend
       </form>
     </>
   );
