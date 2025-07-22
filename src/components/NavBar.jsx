@@ -34,6 +34,9 @@ const NavBar = ({ user, onLogout }) => {
             <Link to="/Poll" className="nav-link">
               Poll
             </Link>
+            <Link to="/AllPolls" className="nav-link">
+              All Polls
+            </Link>
           </div>
         )}
       </div>

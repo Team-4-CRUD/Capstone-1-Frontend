@@ -11,6 +11,7 @@ import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
 import PollForm from "./components/PollForm";
+import ViewAllPoll from "./components/ViewAllPoll";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -58,6 +59,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
           <Route path="/Poll" element={<PollForm />} />
+          <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

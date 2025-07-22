@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./AuthStyles.css";
 
 const Login = ({ setUser }) => {
+  useEffect(() => {
+    document.body.classList.add("SignUp-form-page");
+
+    return () => {
+      document.body.classList.remove("SignUp-form-page");
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
