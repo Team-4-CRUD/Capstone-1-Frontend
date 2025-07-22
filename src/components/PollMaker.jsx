@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 // import css page here
 import axios from "axios";
 
@@ -9,45 +9,49 @@ const PollMaker = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    Element: [
+      {
+        option: "",
+        info: "",
+        picture: "",
+      },
+    ],
   });
 
-  const [error, setError] = useState({
-    title: "",
-    description: "",
-  });
-
-  const [apiError, setApiError] = useState("");
-  const [published, setPublished] = useState("");
-  const [selectedPoll, setSelectedPoll] = useState("");
-  const [polls, setPolls] = useState("");
-  const navigate = useNavigate();
-
-  useEffect (() => {
-    const fetchPolls = async() => {
-    try {
-      const {data} = await axios.get(`${API_BASE}/PollForm`);
-      setPolls(data);
-    } catch (err) {
-      console.error("Error fetching students:", err);
-      }
-    };
-    fetchPolls();
-  }, []); 
-
-  const handleChange = (e) => {
-    const {title, value} = e.target.value;
-    setFormData((prevData) => ({...prevData, [title]: value}));
-    // we can add a loop later that capitalizes the title once submitted
-  };
-
-  const handleDeletePoll = (e) =>{
-    setPublished((prev) => prev.filter((poll) => poll.id !== id));
-  };
-
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      const res = await axios.post(`${API_BASE}/PollForm`, formData);
+      console.log("Poll creaated", res.data);
+    } catch (err) {
+      console.error("Error fetching polls:", err);
+    }
+  };
 
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    const AddEl = [...formData.Element];
+    AddEl[index] = {
+      ...AddEl[index],
+      [name]: value,
+    };
+    if (name === "title" || name === "description") {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        Element: AddEl,
+      }));
+    }
+  };
+
+  const handleAddElement = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      Element: [...prevData.Element, { option: "", info: "", picture: "" }],
+    }));
+    console.log();
   };
 
   return (
@@ -59,42 +63,62 @@ const PollMaker = () => {
       <p>More features coming soon!</p>
       <p>Stay tuned!</p>
 
-      <input 
-        type="text"
-        name="title"
-        placeholder="Pick a Title"
-        value={formData.name}
-        required
-      />
-      <input
-        type="text"
-        name="description"
-        placeholder="Write a Description"
-        value={formData.description}
-        required
-      />
-      <button>Allow Authenticated Users? </button>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+            onChange={handleChange}
+            type="text"
+            name="title"
+            placeholder="Pick a Title"
+            value={formData.title}
+            required
+          />
+          <input
+            onChange={handleChange}
+            type="text"
+            name="description"
+            placeholder="Write a Description"
+            value={formData.description}
+            required
+          />
+          <button>Allow Authenticated Users? </button>
+        </div>
 
-      <input 
-        type="text"
-        name="question"
-        placeholder="Question 1"
-        value={formData.question}
-        required
-      />
-
-      <div>
-        <input
-          type="text" placeholder="The cards will go here"
-        />
-      </div>
-
-      <button id="submit" onClick={handleSubmit}> Submit Poll</button>
-
-
+        {formData.Element.map((el, idx) => (
+          <div key={idx}>
+            <input
+              onChange={(e) => handleChange(e, idx)}
+              type="text"
+              name="option"
+              placeholder="Pick an Option"
+              value={el.option}
+              required
+            />
+            <input
+              onChange={(e) => handleChange(e, idx)}
+              type="text"
+              name="info"
+              placeholder="Write some Info"
+              value={el.info}
+              required
+            />
+            <input
+              onChange={(e) => handleChange(e, idx)}
+              type="url"
+              name="picture"
+              placeholder="Choose a picture"
+              value={el.picture}
+              required
+            />
+          </div>
+        ))}
+        <input type="submit" />
+        <button type="button" onClick={handleAddElement}>
+          Add Option
+        </button>
+      </form>
     </>
   );
 };
-
 
 export default PollMaker;
