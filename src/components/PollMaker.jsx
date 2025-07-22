@@ -29,7 +29,7 @@ const PollMaker = () => {
       });
       console.log("Poll created", res.data);
       console.log(formData);
-      navigate('/');
+      navigate('/polls');
     } catch (err) {
       console.error("Error creating poll:", err);
     }

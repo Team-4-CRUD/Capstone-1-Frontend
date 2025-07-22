@@ -12,9 +12,11 @@ import NotFound from "./components/NotFound";
 import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
 import { API_URL } from "./shared";
 import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,6 +37,7 @@ const App = () => {
     try {
       await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
       setUser(null);
+      navigate('/');
     } catch (err) {
       console.error("Logout failed:", err);
     }

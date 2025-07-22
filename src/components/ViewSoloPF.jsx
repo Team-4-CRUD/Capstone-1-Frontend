@@ -9,9 +9,9 @@ const ViewSoloPF = () => {
 
   const fetchPollForm = async () => {
     try {
-       console.log("ID from useParams:", id);
+       
       const res = await axios.get(`${API_BASE}/PollForm${id}`);
-      console.log("THIS OUR DATA", res.data);
+     
       setPollMaker(res.data);
     } catch (error) {
       console.error("Error fetching PollForm data:", error);
