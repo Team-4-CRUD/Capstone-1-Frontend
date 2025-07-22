@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Raleway", sans-serif;
+  /* background-image: url("./img/cool.jpg"); */
 
   /* font-family: "DM Sans"; */
 }
@@ -10,12 +11,15 @@
 body {
   background-color: #ffffff;
   background-image: url("img/cool.jpg");
+  /* background-repeat: no-repeat;
+  background-size: cover; */
+
 }
 
-body.home {
+/* body.home {
   background-color: #ffffff;
   background-image: url("./img/cool.jpg");
-}
+} */
 /* SANDBOX AREA */
 /*
 body.login {
@@ -39,13 +43,15 @@ testLogin{
   margin-bottom: 2rem;
 }
 
-  /* .app {
+.app {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-}     */
+  /* background-image: url("./img/cool.jpg"); */
+
+}    
 
 @keyframes spin {
   from {

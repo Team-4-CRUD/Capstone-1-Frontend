@@ -5,13 +5,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* background-image: url("../img/cool.jpg"); */
 }
 
-html, body.poll-form-page {
+body.poll-form-page {
     overflow: hidden;
     height: 100%;
     overflow-x: hidden;
     background-color: #D5E0CF;
+    background-image: url("../img/Rectangle 73.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .poll-container {
