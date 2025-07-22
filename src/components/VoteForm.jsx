@@ -1,8 +1,8 @@
 import React from "react";
-import "../styles/pollForm.css";
+import "../styles/voteForm.css";
 import { useEffect } from "react";
 
-function PollForm() {
+function VoteForm() {
   useEffect(() => {
     document.body.classList.add("poll-form-page");
 
@@ -56,4 +56,4 @@ function PollForm() {
   );
 }
 
-export default PollForm;
+export default VoteForm;

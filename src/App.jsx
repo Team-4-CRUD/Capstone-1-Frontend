@@ -13,7 +13,7 @@ import { API_URL } from "./shared";
 import { useAuth, AuthProvider } from "./context/AuthContext"; // context
 import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
-import PollForm from "./components/PollForm";
+import VoteForm from "./components/VoteForm";
 import ViewAllPoll from "./components/ViewAllPoll";
 
 const App = () => {
@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/pollmaker" element={<PollMaker />} />
           <Route path="/polls" element={<ViewAllCreatorPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
-          <Route path="/Poll" element={<PollForm />} />
+          <Route path="/Poll" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
