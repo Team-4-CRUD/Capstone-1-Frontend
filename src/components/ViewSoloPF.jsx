@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
-const API_BASE = "http://localhost:8080/api";
+import { useAuth } from "../context/AuthContext";
+import { useParams } from "react-router-dom"; 
 
-const ViewSoloPF = () => {
-  const { id } = useParams(); // get id from URL
-  const [PollMaker, setPollMaker] = useState({});
-
-  const fetchPollForm = async () => {
-    try {
-       
-      const res = await axios.get(`${API_BASE}/PollForm${id}`);
-     
-      setPollMaker(res.data);
-    } catch (error) {
-      console.error("Error fetching PollForm data:", error);
-    }
-  };
-
+function ViewSoloPF() {
+  const [poll, setPoll] = useState(null);
+  const { user } = useAuth();
+  const { PollFormId } = useParams(); 
   useEffect(() => {
-    fetchPollForm();
-  }, [id]);
+    const fetchData = async () => {
+      if (!user || !PollFormId) return;
+      try {
+        const { data } = await axios.get(
+          `http://localhost:8080/api/PollForm/${PollFormId}`,
+          { withCredentials: true }
+        );
+        setPoll(data);
+        console.log("👤 creator_id from user.id:", user.id);
+      } catch (err) {
+        console.error("Error fetching poll form!", err);
+      }
+    };
+
+    fetchData();
+  }, [user, PollFormId]);
+
+  if (!poll) return <p>Loading...</p>;
 
   return (
     <>
-      <h1> yoo </h1>
-      <h1>{PollMaker.title}</h1>
-      <p>{PollMaker.description}</p>
+      <h1>{poll.title}</h1>
+      <p>{poll.description}</p>
     </>
   );
-};
+}
 
 export default ViewSoloPF;

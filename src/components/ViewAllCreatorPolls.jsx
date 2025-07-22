@@ -31,7 +31,9 @@ function ViewAllCreatorPolls() {
   const handleDelete = async (PollFormId) => {
     try {
       await axios.delete(`http://localhost:8080/api/PollForm/${PollFormId}`);
-      setDataPoll((prev) => prev.filter((poll) => poll.pollForm_id !== PollFormId));
+      setDataPoll((prev) =>
+        prev.filter((poll) => poll.pollForm_id !== PollFormId)
+      );
     } catch (error) {
       console.error("Failed to delete Poll Form: ", error);
     }
@@ -51,7 +53,10 @@ function ViewAllCreatorPolls() {
           polls.map((poll, index) => (
             <li key={index}>
               <div>
-                <h3>{poll.title}</h3>
+                <NavLink to={`/polls/${poll.pollForm_id}`}>
+                  <h3>{poll.title}</h3>
+                </NavLink>
+
                 <p>{poll.description}</p>
                 <p>Number of options: {poll.pollElements?.length || 0}</p>
               </div>

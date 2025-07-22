@@ -13,6 +13,7 @@ import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
 import { API_URL } from "./shared";
 import { useAuth, AuthProvider } from "./context/AuthContext"; // context
 import { useNavigate } from "react-router-dom";
+import ViewSoloPF from "./components/ViewSoloPF";
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -37,7 +38,7 @@ const App = () => {
     try {
       await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
       setUser(null);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
           <Route path="/polls" element={<ViewAllCreatorPolls />} />
+          <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
