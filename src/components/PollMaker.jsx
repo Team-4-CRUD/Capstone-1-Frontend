@@ -2,10 +2,12 @@ import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import css page here
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = "http://localhost:8080/api";
 
 const PollMaker = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -22,10 +24,14 @@ const PollMaker = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${API_BASE}/PollForm`, formData);
-      console.log("Poll creaated", res.data);
+      const res = await axios.post(`${API_BASE}/PollForm`, formData, {
+        withCredentials: true,
+      });
+      console.log("Poll created", res.data);
+      console.log(formData);
+      navigate('/polls');
     } catch (err) {
-      console.error("Error fetching polls:", err);
+      console.error("Error creating poll:", err);
     }
   };
 
@@ -34,14 +40,14 @@ const PollMaker = () => {
     const AddEl = [...formData.Element];
     AddEl[index] = {
       ...AddEl[index],
-      [name]: value,
-    };
+      [name]: value
+    }
     if (name === "title" || name === "description") {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        Element: AddEl,
+        Element: AddEl
       }));
     }
   };
@@ -49,10 +55,14 @@ const PollMaker = () => {
   const handleAddElement = () => {
     setFormData((prevData) => ({
       ...prevData,
-      Element: [...prevData.Element, { option: "", info: "", picture: "" }],
+      Element: [
+        ...prevData.Element,
+        { option: "", info: "", picture: "" },
+      ],
     }));
     console.log();
   };
+
 
   return (
     <>
@@ -113,9 +123,7 @@ const PollMaker = () => {
           </div>
         ))}
         <input type="submit" />
-        <button type="button" onClick={handleAddElement}>
-          Add Option
-        </button>
+        <button type="buttom" onClick={handleAddElement}> Add Option </button>
       </form>
     </>
   );

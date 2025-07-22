@@ -1,51 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import axios from "axios";
-import "./AppStyles.css";
 import NavBar from "./components/NavBar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
+import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
 import { API_URL } from "./shared";
+import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+import { useNavigate } from "react-router-dom";
+import ViewSoloPF from "./components/ViewSoloPF";
 import PollForm from "./components/PollForm";
 import ViewAllPoll from "./components/ViewAllPoll";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
-  const checkAuth = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/me`, {
-        withCredentials: true,
-      });
-      setUser(response.data.user);
-    } catch {
-      console.log("Not authenticated");
-      setUser(null);
-    }
-  };
-
-  // Check authentication status on app load
   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/auth/me`, {
+          withCredentials: true,
+        });
+        setUser(res.data.user);
+      } catch {
+        console.log("Not authenticated");
+        setUser(null);
+      }
+    };
     checkAuth();
-  }, []);
+  }, [setUser]);
 
   const handleLogout = async () => {
     try {
-      // Logout from our backend
-      await axios.post(
-        `${API_URL}/auth/logout`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
       setUser(null);
-    } catch (error) {
-      console.error("Logout error:", error);
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
     }
   };
 
@@ -54,10 +50,12 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/signup" element={<Signup setUser={setUser} />} />
-          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
+          <Route path="/polls" element={<ViewAllCreatorPolls />} />
+          <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Poll" element={<PollForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="*" element={<NotFound />} />
@@ -67,13 +65,13 @@ const App = () => {
   );
 };
 
-const Root = () => {
-  return (
+const Root = () => (
+  <AuthProvider>
     <Router>
       <App />
     </Router>
-  );
-};
+  </AuthProvider>
+);
 
 const root = createRoot(document.getElementById("root"));
 root.render(<Root />);

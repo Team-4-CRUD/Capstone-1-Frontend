@@ -3,16 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./AuthStyles.css";
 import { API_URL } from "../shared";
+import { useAuth } from "../context/AuthContext";
 
-const Signup = ({ setUser }) => {
-  useEffect(() => {
-    document.body.classList.add("SignUp-form-page");
-
-    return () => {
-      document.body.classList.remove("SignUp-form-page");
-    };
-  }, []);
-
+const Signup = () => {
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -50,6 +44,8 @@ const Signup = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setErrors({}); // Clear previous errors before validating
+
     if (!validateForm()) {
       return;
     }
@@ -64,6 +60,8 @@ const Signup = ({ setUser }) => {
         },
         { withCredentials: true }
       );
+
+      console.log("Signup response:", response);
 
       setUser(response.data.user);
       navigate("/");
@@ -95,73 +93,70 @@ const Signup = ({ setUser }) => {
   };
 
   return (
-    // <div className="auth-container">
-    //   <div className="auth-form">
-    //     <h2>Sign Up</h2>
+    <div className="auth-container">
+      <div className="auth-form">
+        <h2>Sign Up</h2>
 
-    //     {errors.general && (
-    //       <div className="error-message">{errors.general}</div>
-    //     )}
+        {errors.general && (
+          <div className="error-message">{errors.general}</div>
+        )}
 
-    //     <form onSubmit={handleSubmit}>
-    //       <div className="form-group">
-    //         <label htmlFor="username">Username:</label>
-    //         <input
-    //           type="text"
-    //           id="username"
-    //           name="username"
-    //           value={formData.username}
-    //           onChange={handleChange}
-    //           className={errors.username ? "error" : ""}
-    //         />
-    //         {errors.username && (
-    //           <span className="error-text">{errors.username}</span>
-    //         )}
-    //       </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              className={errors.username ? "error" : ""}
+            />
+            {errors.username && (
+              <span className="error-text">{errors.username}</span>
+            )}
+          </div>
 
-    //       <div className="form-group">
-    //         <label htmlFor="password">Password:</label>
-    //         <input
-    //           type="password"
-    //           id="password"
-    //           name="password"
-    //           value={formData.password}
-    //           onChange={handleChange}
-    //           className={errors.password ? "error" : ""}
-    //         />
-    //         {errors.password && (
-    //           <span className="error-text">{errors.password}</span>
-    //         )}
-    //       </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={errors.password ? "error" : ""}
+            />
+            {errors.password && (
+              <span className="error-text">{errors.password}</span>
+            )}
+          </div>
 
-    //       <div className="form-group">
-    //         <label htmlFor="confirmPassword">Confirm Password:</label>
-    //         <input
-    //           type="password"
-    //           id="confirmPassword"
-    //           name="confirmPassword"
-    //           value={formData.confirmPassword}
-    //           onChange={handleChange}
-    //           className={errors.confirmPassword ? "error" : ""}
-    //         />
-    //         {errors.confirmPassword && (
-    //           <span className="error-text">{errors.confirmPassword}</span>
-    //         )}
-    //       </div>
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className={errors.confirmPassword ? "error" : ""}
+            />
+            {errors.confirmPassword && (
+              <span className="error-text">{errors.confirmPassword}</span>
+            )}
+          </div>
 
-    //       <button type="submit" disabled={isLoading}>
-    //         {isLoading ? "Creating account..." : "Sign Up"}
-    //       </button>
-    //     </form>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Creating account..." : "Sign Up"}
+          </button>
+        </form>
 
-    //     <p className="auth-link">
-    //       Already have an account? <Link to="/login">Login</Link>
-    //     </p>
-    //   </div>
-    // </div>
-    <>
-      <p>Signup</p>
-    </>
+        <p className="auth-link">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

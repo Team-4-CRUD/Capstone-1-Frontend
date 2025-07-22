@@ -1,12 +1,9 @@
 import React from "react";
 
 const Home = () => {
-  return (
-    <>
-      <h1>Hello React!</h1>
-      <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
-    </>
-  );
+  document.body.classList.add("home-page");
+
+  return <></>;
 };
 
 export default Home;
