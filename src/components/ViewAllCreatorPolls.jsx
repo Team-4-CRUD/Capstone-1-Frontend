@@ -59,6 +59,26 @@ function ViewAllCreatorPolls() {
     }
   };
 
+    const handleEnd = async (pollId) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:8080/api/creator/${pollId}/end`,
+        {},
+        { withCredentials: true }
+      );
+      console.log(res.data.message);
+
+      // Update state to reflect new status
+      setDataPoll((prevPolls) =>
+        prevPolls.map((poll) =>
+          poll.pollForm_id === pollId ? { ...poll, status: "ended" } : poll
+        )
+      );
+    } catch (error) {
+      console.error("Failed to end poll:", error);
+    }
+  };
+
   // Prevent errors for mapping
   const polls = Array.isArray(dataPoll) ? dataPoll : [];
 
@@ -104,6 +124,12 @@ function ViewAllCreatorPolls() {
                       Publish
                     </button>
                   </>
+                )}
+
+                {poll.status === "published" && (
+                  <button onClick={() => handleEnd(poll.pollForm_id)}>
+                      End
+                    </button>
                 )}
               </div>
             </li>
