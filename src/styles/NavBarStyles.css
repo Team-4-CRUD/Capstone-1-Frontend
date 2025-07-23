@@ -20,6 +20,7 @@
   color: #3E5622;
   text-decoration: none;
   font-family: Outfit, 'Arial';
+  font-weight: 800;
   transition: ease-in 0.2s;
 }
 
@@ -48,6 +49,7 @@
   text-transform: uppercase;
   font-size: 1.25rem;
   font-family: Work Sans, 'Arial';
+  font-weight: 800;
   transition: all ease-in 0.3s;
 }
 
