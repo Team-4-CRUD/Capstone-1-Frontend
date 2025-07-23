@@ -10,33 +10,40 @@ const NavBar = ({ user, onLogout }) => {
       </div>
 
       <div className="nav-links">
-        {user ? (
-          <div className="user-section">
-            <span className="username">Welcome, {user.username}!</span>
-            <div>
-              <Link to="/pollmaker" className="nav-link">
-                New Poll
+        <div className="left-links">
+          {!user && (
+            <>
+              <Link to="/login" className="nav-link">
+                Login
               </Link>
-              <Link to="/polls">View all your Forms</Link>
-            </div>
-            <button onClick={onLogout} className="logout-btn">
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="auth-links">
-            <Link to="/login" className="nav-link">
-              Login
+              <Link to="/signup" className="nav-link">
+                Sign Up
+              </Link>
+              <Link to="/Vote" className="nav-link">
+                Poll
+              </Link>
+              <Link to="/AllPolls" className="nav-link">
+                All Polls
+              </Link>
+            </>
+          )}
+        </div>
+
+        {user && (
+          <div className="user-section">
+            <Link to="/pollmaker" className="nav-link">
+              New Poll
             </Link>
-            <Link to="/signup" className="nav-link">
-              Sign Up
-            </Link>
-            <Link to="/Poll" className="nav-link">
-              Poll
+            <Link to="/polls" className="nav-link">
+              View all your Forms
             </Link>
             <Link to="/AllPolls" className="nav-link">
               All Polls
             </Link>
+            <span className="username">Welcome, {user.username}!</span>
+            <button onClick={onLogout} className="logout-btn">
+              Logout
+            </button>
           </div>
         )}
       </div>

@@ -39,14 +39,56 @@ function ViewAllCreatorPolls() {
     }
   };
 
+  const handlePublish = async (pollId) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:8080/api/creator/${pollId}/publish`,
+        {},
+        { withCredentials: true }
+      );
+      console.log(res.data.message);
+
+      // Update state to reflect new status
+      setDataPoll((prevPolls) =>
+        prevPolls.map((poll) =>
+          poll.pollForm_id === pollId ? { ...poll, status: "published" } : poll
+        )
+      );
+    } catch (error) {
+      console.error("Failed to publish poll:", error);
+    }
+  };
+
+  const handleEnd = async (pollId) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:8080/api/creator/${pollId}/end`,
+        {},
+        { withCredentials: true }
+      );
+      console.log(res.data.message);
+
+      // Update state to reflect new status
+      setDataPoll((prevPolls) =>
+        prevPolls.map((poll) =>
+          poll.pollForm_id === pollId ? { ...poll, status: "ended" } : poll
+        )
+      );
+    } catch (error) {
+      console.error("Failed to end poll:", error);
+    }
+  };
+
   // Prevent errors for mapping
   const polls = Array.isArray(dataPoll) ? dataPoll : [];
+
+  if (!user) {
+    return <p>Please log in to view your polls.</p>;
+  }
 
   return (
     <div>
       <h1>{user.username} PollForms</h1>
-      <p>Creator ID: {user ? user.id : "Not logged in"}</p>
-      <NavLink to="/pollmaker">Add another form</NavLink>
 
       <ul>
         {polls.length > 0 ? (
@@ -56,14 +98,40 @@ function ViewAllCreatorPolls() {
                 <NavLink to={`/polls/${poll.pollForm_id}`}>
                   <h3>{poll.title}</h3>
                 </NavLink>
-
                 <p>{poll.description}</p>
-                <p>Number of options: {poll.pollElements?.length || 0}</p>
+                <p>Status: {poll.status}</p>
+                <p>Options: {poll.pollElements?.length || 0}</p>
+                <img src={[poll.picture]} alt="" />
               </div>
               <div>
-                <button onClick={() => handleDelete(poll.pollForm_id)}>
-                  Delete Form
-                </button>
+                {poll.status === "draft" && (
+                  <>
+                    <button onClick={() => handleDelete(poll.pollForm_id)}>
+                      Delete
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        navigate(`/polls/edit/${poll.pollForm_id}`)
+                      }
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => handlePublish(poll.pollForm_id)}
+                      disabled={!poll.pollForm_id}
+                    >
+                      Publish
+                    </button>
+                  </>
+                )}
+
+                {poll.status === "published" && (
+                  <button onClick={() => handleEnd(poll.pollForm_id)}>
+                    End
+                  </button>
+                )}
               </div>
             </li>
           ))

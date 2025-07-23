@@ -8,5 +8,7 @@
 }
 
  body.Allpoll-page{
-    background-color: rgb(0, 110, 207);
+     height: 100%;
+    overflow-x: hidden;
+    background-color: #D5E0CF;
 }

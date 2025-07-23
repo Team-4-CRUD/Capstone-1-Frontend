@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/voteForm.css";
 import { useEffect } from "react";
+import axios from "axios";
 
 function VoteForm() {
   useEffect(() => {
@@ -9,6 +10,25 @@ function VoteForm() {
     return () => {
       document.body.classList.remove("poll-form-page");
     };
+  }, []);
+
+  const { VoteFormID } = useParams();
+  const [currentForm, SetCurrentForm] = useState([]);
+
+  const fetchVotingPoll = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/api/PollForm/${VoteFormID}`
+      );
+      SetCurrentForm(data);
+      console.log("Voting Form", currentForm);
+    } catch (error) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchVotingPoll();
   }, []);
 
   return (

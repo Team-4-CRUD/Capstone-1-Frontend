@@ -12,16 +12,22 @@ const PollMaker = () => {
     title: "",
     description: "",
     Element: [
-      {
-        option: "",
-        info: "",
-        picture: "",
-      },
+      { option: "", info: "", picture: "" },
     ],
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Count how many options have a non-empty 'option' field
+    const filledOptions = formData.Element.filter(
+      (el) => el.option.trim() !== ""
+    );
+
+    if (filledOptions.length < 2) {
+      alert("Please add at least two options before submitting the poll.");
+      return;
+    }
 
     try {
       const res = await axios.post(`${API_BASE}/PollForm`, formData, {
@@ -29,7 +35,7 @@ const PollMaker = () => {
       });
       console.log("Poll created", res.data);
       console.log(formData);
-      navigate('/polls');
+      navigate("/polls");
     } catch (err) {
       console.error("Error creating poll:", err);
     }
@@ -40,14 +46,14 @@ const PollMaker = () => {
     const AddEl = [...formData.Element];
     AddEl[index] = {
       ...AddEl[index],
-      [name]: value
-    }
+      [name]: value,
+    };
     if (name === "title" || name === "description") {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        Element: AddEl
+        Element: AddEl,
       }));
     }
   };
@@ -55,14 +61,10 @@ const PollMaker = () => {
   const handleAddElement = () => {
     setFormData((prevData) => ({
       ...prevData,
-      Element: [
-        ...prevData.Element,
-        { option: "", info: "", picture: "" },
-      ],
+      Element: [...prevData.Element, { option: "", info: "", picture: "" }],
     }));
     console.log();
   };
-
 
   return (
     <>
@@ -91,7 +93,17 @@ const PollMaker = () => {
             value={formData.description}
             required
           />
-          <button>Allow Authenticated Users? </button>
+          <input
+            type="checkbox"
+            checked={formData.private || false}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                private: e.target.checked,
+              }))
+            }
+          />
+          <label>Allow only authenticated users to vote?</label>
         </div>
 
         {formData.Element.map((el, idx) => (
@@ -123,7 +135,9 @@ const PollMaker = () => {
           </div>
         ))}
         <input type="submit" />
-        <button type="buttom" onClick={handleAddElement}> Add Option </button>
+        <button type="button" onClick={handleAddElement}>
+          Add Option
+        </button>
       </form>
     </>
   );

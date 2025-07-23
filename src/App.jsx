@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/pollmaker" element={<PollMaker />} />
           <Route path="/polls" element={<ViewAllCreatorPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
-          <Route path="/Poll" element={<VoteForm />} />
+          <Route path="/Vote" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
