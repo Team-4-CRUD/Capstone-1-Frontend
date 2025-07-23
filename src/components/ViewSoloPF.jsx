@@ -25,6 +25,20 @@ function ViewSoloPF() {
     fetchData();
   }, [user, PollFormId]);
 
+  const handleDelete = async (elementId) => {
+  try {
+    await axios.delete(`http://localhost:8080/api/pollelement/${elementId}`);
+    setPoll((prev) => ({
+      ...prev,
+      pollElements: prev.pollElements.filter(
+        (el) => el.element_id !== elementId
+      ),
+    }));
+  } catch (error) {
+    console.error("Failed to delete Poll element: ", error);
+  }
+};
+
   if (!poll) return <p>Loading...</p>;
 
   return (
@@ -39,6 +53,11 @@ function ViewSoloPF() {
                 <h3>{element.option}</h3>
                 <p>{element.info}</p>
                 <p>{element.picture}</p>
+              </div>
+              <div>
+                <button onClick={() => handleDelete(element.element_id)}>
+                  Delete
+                </button>
               </div>
             </li>
           ))

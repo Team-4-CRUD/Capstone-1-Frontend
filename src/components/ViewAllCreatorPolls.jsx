@@ -83,22 +83,28 @@ function ViewAllCreatorPolls() {
                 <p>Options: {poll.pollElements?.length || 0}</p>
               </div>
               <div>
-                <button onClick={() => handleDelete(poll.pollForm_id)}>
-                  Delete
-                </button>
                 {poll.status === "draft" && (
-                  <button
-                    onClick={() => handlePublish(poll.pollForm_id)}
-                    disabled={!poll.pollForm_id}
-                  >
-                    Publish
-                  </button>
+                  <>
+                    <button onClick={() => handleDelete(poll.pollForm_id)}>
+                      Delete
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        navigate(`/polls/edit/${poll.pollForm_id}`)
+                      }
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => handlePublish(poll.pollForm_id)}
+                      disabled={!poll.pollForm_id}
+                    >
+                      Publish
+                    </button>
+                  </>
                 )}
-                <button
-                  onClick={() => navigate(`/polls/edit/${poll.pollForm_id}`)}
-                >
-                  Edit
-                </button>
               </div>
             </li>
           ))
