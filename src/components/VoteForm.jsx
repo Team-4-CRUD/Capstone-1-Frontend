@@ -3,6 +3,7 @@ import "../styles/voteForm.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import arrowLeft from "../assets/images/arrowLeft.png";
 
 function VoteForm() {
   useEffect(() => {
@@ -14,6 +15,19 @@ function VoteForm() {
   }, []);
 
   const [currentForm, setCurrentForm] = useState([]);
+  const [userRankings, setUserRankings] = useState([]); // State to store user rank's
+  // const [selectedRanks, setSelectedRanks] = useState([]);
+  // const [voteData, setVoteData] = useState([
+  //   {
+  //     pollForm_id: VoteFormID,
+  //     response: [
+  //       {
+  //         element_id: "",
+  //         rank: "",
+  //       },
+  //     ],
+  //   },
+  // ]);
   const { VoteFormID } = useParams();
 
   const fetchVotingPoll = async () => {
@@ -36,10 +50,95 @@ function VoteForm() {
     console.log("Updated currentForm:", currentForm);
   }, [currentForm]);
 
+  const handleRankChange = (elementID, event) => {
+    // const selectedRank = Number(event.target.value);
+
+    // if (
+    //   isNaN(selectedRank) ||
+    //   selectedRank <= 0 ||
+    //   selectedRank > currentForm.pollElements.length
+    // ) {
+    //   alert(
+    //     "Please select a valid rank between 1 and " +
+    //       currentForm.pollElements.length
+    //   );
+    //   return;
+    // }
+
+    // if (selectedRanks.includes(selectedRank)) {
+    //   alert(
+    //     "This rank has already been assigned to another element. Please choose a unique rank."
+    //   );
+    //   return;
+    // }
+
+    // setSelectedRanks((prevRanks) => {
+    //   const updatedRanks = prevRanks.filter((rank) => rank !== selectedRank);
+    //   updatedRanks.push(selectedRank);
+    //   return updatedRanks;
+    // });
+
+    setUserRankings((prevData) => ({
+      ...prevData,
+      // Update the rank for the specific element using its unique ID (elementID)
+      // Convert the selected rank (which is a string) to a number using `Number()`
+      [elementID]: Number(event.target.value),
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    {
+      /* COMMENT: to help me remember Object.keys() */
+    }
+
+    // The resulting `votes` array will contain an object for each element the user has ranked.
+    // Create the array of votes by iterating over each element in userRankings
+    // key option, value rank
+    const rankings = Object.keys(userRankings).map((index) => {
+      return { elementId: Number(index), rank: userRankings[index] };
+    });
+
+    console.log(rankings);
+
+    //       // element_id: The ID of the poll element the user is voting on (from the current poll element)
+    //       element_id: elementID, // `elementID` comes from the keys of userRankings
+    //       // rank: The rank the user selected for the current poll element (from userRankings state)
+    //       rank: userRankings[elementID], // Fetch the rank for the given elementID from state
+
+    // });
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/vote/submit",
+        { pollFormId: VoteFormID, response: rankings },
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      console.error();
+      console.log("Error sending data");
+    }
+  };
+
+  // const isFormValid =
+  //   currentForm.pollElements &&
+  //   currentForm.pollElements.length > 0
+  //    &&
+  //   selectedRanks.length === 1;
+
+  // if (isFormValid) {
+  //   alert(
+  //     "You've casted one vote \n You may submit complete voting \n or you may submit as is."
+  //   );
+  // }
+
   return (
     // <div className="poll-container">
     //   <div className="exit-nav">
-    //     <img src="/arrowLeft.png" alt="Exit" />
+    //     <img src={arrowLeft} alt="Exit" />
     //     <a href="/">Exit Voting</a>
     //   </div>
     //   <div className="poll-grid">
@@ -81,13 +180,31 @@ function VoteForm() {
     <>
       {currentForm && currentForm.title && <h2>{currentForm.title}</h2>}
 
-      {currentForm.pollElements &&
-        Array.isArray(currentForm.pollElements) &&
-        currentForm.pollElements.map((poll, index) => (
-          <div key={index} className="option">
-            <p>{poll.option}</p>
-          </div>
-        ))}
+      <form onSubmit={handleSubmit}>
+        {currentForm.pollElements &&
+          Array.isArray(currentForm.pollElements) &&
+          currentForm.pollElements.map((poll, index) => (
+            <div key={index} className="option">
+              <p>{poll.option}</p>
+              <select
+                name="rank"
+                id={`rank-${index}`}
+                value={userRankings[poll.element_id] || ""}
+                onChange={(e) => handleRankChange(poll.element_id, e)}
+              >
+                {/* Loops through and gives you each rank number (1-based) */}
+                {/* Renders all rank options: Rank 1, Rank 2, etc. */}
+                <option value="">Select rank</option>
+                {[...Array(currentForm.pollElements.length)].map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    Rank {i + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        <button>Submit</button>
+      </form>
     </>
   );
 }

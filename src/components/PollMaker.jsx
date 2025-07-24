@@ -11,9 +11,7 @@ const PollMaker = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    Element: [
-      { option: "", info: "", picture: "" },
-    ],
+    Element: [{ option: "", info: "", picture: "" }],
   });
 
   const handleSubmit = async (e) => {
