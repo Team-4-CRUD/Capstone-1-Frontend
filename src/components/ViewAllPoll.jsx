@@ -21,7 +21,7 @@ function ViewAllPoll() {
 
       setForms(data || []);
     } catch (err) {
-      console.error("Error fetching poll forms!");
+      console.error("Error fetching poll forms!", err);
     }
   };
 
