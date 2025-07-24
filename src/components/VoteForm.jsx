@@ -14,6 +14,7 @@ function VoteForm() {
   }, []);
 
   const [currentForm, setCurrentForm] = useState([]);
+  const [userRankings, setUserRankings] = useState([]); // State to store user rank's
   const { VoteFormID } = useParams();
 
   const fetchVotingPoll = async () => {
@@ -35,6 +36,53 @@ function VoteForm() {
   useEffect(() => {
     console.log("Updated currentForm:", currentForm);
   }, [currentForm]);
+
+  {
+    /*Comments that wrote that are helpful to me */
+  }
+
+  // This function handles changes in rank selections from the user
+  const handleRankChange = (elementID, event) => {
+    setUserRankings((prevData) => ({
+      ...prevData,
+
+      // Update the rank for the specific element using its unique ID (elementID)
+      // Convert the selected rank (which is a string) to a number using `Number()`
+      [elementID]: Number(event.target.value),
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    {
+      /* COMMENT: to help me remember Object.keys() */
+    }
+
+    // Create the array of votes by iterating over each element in userRankings
+    const votes = Object.keys(userRankings).map((elementID) => ({
+      user_id: currentForm.creator_id,
+      poll_id: VoteFormID,
+
+      // element_id: The ID of the poll element the user is voting on (from the current poll element)
+      element_id: elementID, // `elementID` comes from the keys of userRankings
+
+      // rank: The rank the user selected for the current poll element (from userRankings state)
+      rank: userRankings[elementID], // Fetch the rank for the given elementID from state
+    }));
+
+    // The resulting `votes` array will contain an object for each element the user has ranked.
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/vote/Submit",
+        votes
+      );
+    } catch (error) {
+      console.error();
+      console.log("Error sending data");
+    }
+  };
 
   return (
     // <div className="poll-container">
@@ -81,13 +129,32 @@ function VoteForm() {
     <>
       {currentForm && currentForm.title && <h2>{currentForm.title}</h2>}
 
-      {currentForm.pollElements &&
-        Array.isArray(currentForm.pollElements) &&
-        currentForm.pollElements.map((poll, index) => (
-          <div key={index} className="option">
-            <p>{poll.option}</p>
-          </div>
-        ))}
+      <form onSubmit={handleSubmit}>
+        {currentForm.pollElements &&
+          Array.isArray(currentForm.pollElements) &&
+          currentForm.pollElements.map((poll, index) => (
+            <div key={index} className="option">
+              <p>{poll.option}</p>
+              <select
+                name="rank"
+                id={`rank-${index}`}
+                value={userRankings[poll.element_id] || ""}
+                onChange={(e) => handleRankChange(poll.element_id, e)}
+              >
+                {/* Creates an array of the right size */}
+                {/* Loops through and gives you each rank number (1-based) */}
+                {/* Renders all rank options: Rank 1, Rank 2, etc. */}
+                <option value="">Select rank</option>
+                {[...Array(currentForm.pollElements.length)].map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    Rank {i + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        <button type="submit">Submit Vote</button>
+      </form>
     </>
   );
 }
