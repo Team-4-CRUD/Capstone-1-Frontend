@@ -16,7 +16,18 @@ function VoteForm() {
 
   const [currentForm, setCurrentForm] = useState([]);
   const [userRankings, setUserRankings] = useState([]); // State to store user rank's
-  const [selectedRanks, setSelectedRanks] = useState([]);
+  // const [selectedRanks, setSelectedRanks] = useState([]);
+  // const [voteData, setVoteData] = useState([
+  //   {
+  //     pollForm_id: VoteFormID,
+  //     response: [
+  //       {
+  //         element_id: "",
+  //         rank: "",
+  //       },
+  //     ],
+  //   },
+  // ]);
   const { VoteFormID } = useParams();
 
   const fetchVotingPoll = async () => {
@@ -40,32 +51,32 @@ function VoteForm() {
   }, [currentForm]);
 
   const handleRankChange = (elementID, event) => {
-    const selectedRank = Number(event.target.value);
+    // const selectedRank = Number(event.target.value);
 
-    if (
-      isNaN(selectedRank) ||
-      selectedRank <= 0 ||
-      selectedRank > currentForm.pollElements.length
-    ) {
-      alert(
-        "Please select a valid rank between 1 and " +
-          currentForm.pollElements.length
-      );
-      return;
-    }
+    // if (
+    //   isNaN(selectedRank) ||
+    //   selectedRank <= 0 ||
+    //   selectedRank > currentForm.pollElements.length
+    // ) {
+    //   alert(
+    //     "Please select a valid rank between 1 and " +
+    //       currentForm.pollElements.length
+    //   );
+    //   return;
+    // }
 
-    if (selectedRanks.includes(selectedRank)) {
-      alert(
-        "This rank has already been assigned to another element. Please choose a unique rank."
-      );
-      return;
-    }
+    // if (selectedRanks.includes(selectedRank)) {
+    //   alert(
+    //     "This rank has already been assigned to another element. Please choose a unique rank."
+    //   );
+    //   return;
+    // }
 
-    setSelectedRanks((prevRanks) => {
-      const updatedRanks = prevRanks.filter((rank) => rank !== selectedRank);
-      updatedRanks.push(selectedRank);
-      return updatedRanks;
-    });
+    // setSelectedRanks((prevRanks) => {
+    //   const updatedRanks = prevRanks.filter((rank) => rank !== selectedRank);
+    //   updatedRanks.push(selectedRank);
+    //   return updatedRanks;
+    // });
 
     setUserRankings((prevData) => ({
       ...prevData,
@@ -82,26 +93,26 @@ function VoteForm() {
       /* COMMENT: to help me remember Object.keys() */
     }
 
-    // Create the array of votes by iterating over each element in userRankings
-    const votes = Object.keys(userRankings).map((elementID) => ({
-      // user_id: currentForm.creator_id,
-      pollForm_id: VoteFormID,
-      response: [
-        {
-          // element_id: The ID of the poll element the user is voting on (from the current poll element)
-          element_id: elementID, // `elementID` comes from the keys of userRankings
-          // rank: The rank the user selected for the current poll element (from userRankings state)
-          rank: userRankings[elementID], // Fetch the rank for the given elementID from state
-        },
-      ],
-    }));
-
     // The resulting `votes` array will contain an object for each element the user has ranked.
+    // Create the array of votes by iterating over each element in userRankings
+    // key option, value rank
+    const rankings = Object.keys(userRankings).map((index) => {
+      return { elementId: Number(index), rank: userRankings[index] };
+    });
+
+    console.log(rankings);
+
+    //       // element_id: The ID of the poll element the user is voting on (from the current poll element)
+    //       element_id: elementID, // `elementID` comes from the keys of userRankings
+    //       // rank: The rank the user selected for the current poll element (from userRankings state)
+    //       rank: userRankings[elementID], // Fetch the rank for the given elementID from state
+
+    // });
 
     try {
       const res = await axios.post(
         "http://localhost:8080/api/vote/submit",
-        votes,
+        { pollFormId: VoteFormID, response: rankings },
         {
           withCredentials: true,
         }
@@ -114,19 +125,15 @@ function VoteForm() {
 
   // const isFormValid =
   //   currentForm.pollElements &&
-  //   currentForm.pollElements.length > 0 &&
-  //   selectedRanks.length === currentForm.pollElements.length;
+  //   currentForm.pollElements.length > 0
+  //    &&
+  //   selectedRanks.length === 1;
 
-  const isFormValid =
-    currentForm.pollElements &&
-    currentForm.pollElements.length > 0 &&
-    selectedRanks.length === 1;
-
-  if (isFormValid) {
-    alert(
-      "You've casted one vote \n You may submit complete voting \n or you may submit as is."
-    );
-  }
+  // if (isFormValid) {
+  //   alert(
+  //     "You've casted one vote \n You may submit complete voting \n or you may submit as is."
+  //   );
+  // }
 
   return (
     // <div className="poll-container">
