@@ -15,6 +15,7 @@ function VoteForm() {
 
   const [currentForm, setCurrentForm] = useState([]);
   const [userRankings, setUserRankings] = useState([]); // State to store user rank's
+  const [selectedRanks, setSelectedRanks] = useState([]);
   const { VoteFormID } = useParams();
 
   const fetchVotingPoll = async () => {
@@ -37,15 +38,36 @@ function VoteForm() {
     console.log("Updated currentForm:", currentForm);
   }, [currentForm]);
 
-  {
-    /*Comments that wrote that are helpful to me */
-  }
-
-  // This function handles changes in rank selections from the user
   const handleRankChange = (elementID, event) => {
+    const selectedRank = Number(event.target.value);
+
+    if (
+      isNaN(selectedRank) ||
+      selectedRank <= 0 ||
+      selectedRank > currentForm.pollElements.length
+    ) {
+      alert(
+        "Please select a valid rank between 1 and " +
+          currentForm.pollElements.length
+      );
+      return;
+    }
+
+    if (selectedRanks.includes(selectedRank)) {
+      alert(
+        "This rank has already been assigned to another element. Please choose a unique rank."
+      );
+      return;
+    }
+
+    setSelectedRanks((prevRanks) => {
+      const updatedRanks = prevRanks.filter((rank) => rank !== selectedRank);
+      updatedRanks.push(selectedRank);
+      return updatedRanks;
+    });
+
     setUserRankings((prevData) => ({
       ...prevData,
-
       // Update the rank for the specific element using its unique ID (elementID)
       // Convert the selected rank (which is a string) to a number using `Number()`
       [elementID]: Number(event.target.value),
@@ -75,7 +97,7 @@ function VoteForm() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/vote/Submit",
+        "http://localhost:8080/api/vote/submit",
         votes
       );
     } catch (error) {
@@ -83,6 +105,11 @@ function VoteForm() {
       console.log("Error sending data");
     }
   };
+
+  const isFormValid =
+    currentForm.pollElements &&
+    currentForm.pollElements.length > 0 &&
+    selectedRanks.length === currentForm.pollElements.length;
 
   return (
     // <div className="poll-container">
@@ -141,7 +168,6 @@ function VoteForm() {
                 value={userRankings[poll.element_id] || ""}
                 onChange={(e) => handleRankChange(poll.element_id, e)}
               >
-                {/* Creates an array of the right size */}
                 {/* Loops through and gives you each rank number (1-based) */}
                 {/* Renders all rank options: Rank 1, Rank 2, etc. */}
                 <option value="">Select rank</option>
@@ -153,7 +179,7 @@ function VoteForm() {
               </select>
             </div>
           ))}
-        <button type="submit">Submit Vote</button>
+        <button disabled={!isFormValid}>Submit</button>
       </form>
     </>
   );
