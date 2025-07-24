@@ -1,4 +1,9 @@
-/* .app{
-    background-image: url("../img/windowpup.png");
-
-} */
+body.login-page {
+    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #D5E0CF;
+    background-image: url("../img/Rectangle 73.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
