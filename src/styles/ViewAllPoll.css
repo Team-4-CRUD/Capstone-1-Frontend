@@ -8,7 +8,42 @@
 }
 
  body.Allpoll-page{
-     height: 100%;
+    height: 100%;
     overflow-x: hidden;
     background-color: #D5E0CF;
 }
+
+.container {
+    height: 100%;
+    overflow-y: auto;
+    margin: 4.813rem 6.563rem 0rem 6.563rem;  /* top | right | bottom | left */
+}
+
+
+.allpolls-title {
+    font-family: Inconsolata, 'Arial';
+    font-size: 3rem;
+    font-weight: 500;
+    height: 60%;
+    margin-bottom: 0.813rem;
+}
+
+.all-polls-search {
+    width: 214px;
+    padding: 0.5rem auto 0.5rem 0.75rem; /* top | right | bottom | left */
+}
+
+
+/* .home-nav {
+     display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.home-nav a {
+    font-size: 1rem;
+    font-family: Inconsolata, 'Arial';
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+} */

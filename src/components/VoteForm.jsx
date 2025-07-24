@@ -3,6 +3,7 @@ import "../styles/voteForm.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import arrowLeft from "../assets/images/arrowLeft.png";
 
 function VoteForm() {
   useEffect(() => {
@@ -83,14 +84,16 @@ function VoteForm() {
 
     // Create the array of votes by iterating over each element in userRankings
     const votes = Object.keys(userRankings).map((elementID) => ({
-      user_id: currentForm.creator_id,
-      poll_id: VoteFormID,
-
-      // element_id: The ID of the poll element the user is voting on (from the current poll element)
-      element_id: elementID, // `elementID` comes from the keys of userRankings
-
-      // rank: The rank the user selected for the current poll element (from userRankings state)
-      rank: userRankings[elementID], // Fetch the rank for the given elementID from state
+      // user_id: currentForm.creator_id,
+      pollForm_id: VoteFormID,
+      response: [
+        {
+          // element_id: The ID of the poll element the user is voting on (from the current poll element)
+          element_id: elementID, // `elementID` comes from the keys of userRankings
+          // rank: The rank the user selected for the current poll element (from userRankings state)
+          rank: userRankings[elementID], // Fetch the rank for the given elementID from state
+        },
+      ],
     }));
 
     // The resulting `votes` array will contain an object for each element the user has ranked.
@@ -98,7 +101,10 @@ function VoteForm() {
     try {
       const res = await axios.post(
         "http://localhost:8080/api/vote/submit",
-        votes
+        votes,
+        {
+          withCredentials: true,
+        }
       );
     } catch (error) {
       console.error();
@@ -106,15 +112,26 @@ function VoteForm() {
     }
   };
 
+  // const isFormValid =
+  //   currentForm.pollElements &&
+  //   currentForm.pollElements.length > 0 &&
+  //   selectedRanks.length === currentForm.pollElements.length;
+
   const isFormValid =
     currentForm.pollElements &&
     currentForm.pollElements.length > 0 &&
-    selectedRanks.length === currentForm.pollElements.length;
+    selectedRanks.length === 1;
+
+  if (isFormValid) {
+    alert(
+      "You've casted one vote \n You may submit complete voting \n or you may submit as is."
+    );
+  }
 
   return (
     // <div className="poll-container">
     //   <div className="exit-nav">
-    //     <img src="/arrowLeft.png" alt="Exit" />
+    //     <img src={arrowLeft} alt="Exit" />
     //     <a href="/">Exit Voting</a>
     //   </div>
     //   <div className="poll-grid">
@@ -179,7 +196,7 @@ function VoteForm() {
               </select>
             </div>
           ))}
-        <button disabled={!isFormValid}>Submit</button>
+        <button>Submit</button>
       </form>
     </>
   );

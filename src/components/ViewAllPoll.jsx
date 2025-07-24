@@ -3,6 +3,7 @@ import "../styles/ViewAllPoll.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { Form, NavLink } from "react-router-dom";
+import arrowLeft from "../assets/images/arrowLeft.png";
 
 function ViewAllPoll() {
   useEffect(() => {
@@ -31,7 +32,20 @@ function ViewAllPoll() {
 
   return (
     <>
-      <h1 className="allpolls-title">All Polls</h1>
+      {/* <div className="home-nav">
+        <img src={arrowLeft} alt="nav-btn" />
+        <a href="/">Back Home</a>
+      </div> */}
+      {/* <div className="container">
+        <h1 className="allpolls-title">All Polls</h1>
+        <div className="search-container">
+          <input
+            type="text"
+            className="all-polls-search"
+            placeholder="Search..."
+          />
+        </div>
+      </div> */}
       {Forms.filter((poll) => poll.status === "published").length > 0 ? (
         <ul>
           {Forms.filter((poll) => poll.status === "published").map(
@@ -50,7 +64,7 @@ function ViewAllPoll() {
           )}
         </ul>
       ) : (
-        <p>No polls available.</p>
+        <p className="no-poll-message">No polls available.</p>
       )}
     </>
   );
