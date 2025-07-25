@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/ProfileStyles.css";
+import axios from "axios";
 
 const Profile = ({ userInfo }) => {
   const [userData, setUserData] = useState([]);
@@ -20,6 +21,7 @@ const Profile = ({ userInfo }) => {
 
   const fetchUserData = async () => {
     try {
+      const res = axios.get("");
     } catch (error) {
       console.error(error);
       console.log("Failed to fetch User Info! ❌");

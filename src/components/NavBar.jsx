@@ -34,7 +34,7 @@ const NavBar = ({ user, onLogout }) => {
             <Link to="/pollmaker" className="nav-link">
               Create Poll
             </Link>
-            <Link to="/polls" className="nav-link">
+            <Link to="/MyPolls" className="nav-link">
               My Polls
             </Link>
             <Link to="/AllPolls" className="nav-link">

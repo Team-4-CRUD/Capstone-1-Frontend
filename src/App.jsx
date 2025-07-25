@@ -16,6 +16,7 @@ import ViewSoloPF from "./components/ViewSoloPF";
 import VoteForm from "./components/VoteForm";
 import ViewAllPoll from "./components/ViewAllPoll";
 import Profile from "./components/Profile";
+import EditPoll from "./components/EditPoll";
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -55,11 +56,12 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
-          <Route path="/polls" element={<ViewAllCreatorPolls />} />
+          <Route path="/MyPolls" element={<ViewAllCreatorPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="/profile" element={<Profile userInfo={user} />} />
+          <Route path="/polls/edit/:id" element={<EditPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
