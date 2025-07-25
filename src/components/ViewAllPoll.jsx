@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 function ViewAllPoll() {
   const [Forms, setForms] = useState([]);
   const [filterStatus, setFilterStatus] = useState("published");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     document.body.classList.add("Allpoll-page");
@@ -31,25 +32,21 @@ function ViewAllPoll() {
     fetchData();
   }, []);
 
-  const filteredPolls = Forms.filter((poll) => poll.status === filterStatus);
+  const handleChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
+  const filteredItems = Forms.filter(
+    (item) =>
+      item.status === filterStatus &&
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       {/* <div className="home-nav">
         <img src={arrowLeft} alt="nav-btn" />
         <a href="/">Back Home</a>
-      </div> */}
-      {/* <div className="container">
-        <h1 className="allpolls-title">All Polls</h1>
-        <div className="search-container">
-          <input
-            type="text"
-            className="all-polls-search"
-            placeholder="Search..."
-          />
-        </div>
-      </div> */}
-
+      </div> */}{" "}
       <div>
         <label htmlFor="status-select">View Polls:</label>
         <select
@@ -61,29 +58,36 @@ function ViewAllPoll() {
           <option value="ended">Ended</option>
         </select>
       </div>
-
-      {/* Poll list */}
-      {filteredPolls.length > 0 ? (
-        <ul>
-          {filteredPolls.map((poll, index) => (
-            <li key={index}>
-              <div>
-                <NavLink
-                  to={
-                    poll.status === "published"
-                      ? `/Vote/${poll.pollForm_id}`
-                      : `/Results/${poll.pollForm_id}`
-                  }
-                >
-                  <h3>{poll.title}</h3>
-                </NavLink>
-                <p>{poll.description}</p>
-                <p>Status: {poll.status}</p>
-                <p>Options: {poll.pollElements?.length || 0}</p>
+      <div className="container">
+        <h1 className="allpolls-title">All Polls</h1>
+        <div className="search-container">
+          <input
+            type="text"
+            className="all-polls-search-bar"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+      {filteredItems.length > 0 ? (
+        <div className="Allpolls-grid">
+          {filteredItems.map((poll, index) => (
+            <NavLink
+              to={
+                poll.status === "published"
+                  ? `/Vote/${poll.pollForm_id}`
+                  : `/Results/${poll.pollForm_id}`
+              }
+              className="poll-link"
+              key={index}
+            >
+              <div className="box-1">
+                <p>{poll.title}</p>
               </div>
-            </li>
+            </NavLink>
           ))}
-        </ul>
+        </div>
       ) : (
         <p className="no-poll-message">No {filterStatus} polls available.</p>
       )}

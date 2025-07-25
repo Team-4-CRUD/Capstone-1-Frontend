@@ -28,11 +28,70 @@
     margin-bottom: 0.813rem;
 }
 
-.all-polls-search {
-    width: 214px;
-    padding: 0.5rem auto 0.5rem 0.75rem; /* top | right | bottom | left */
+.all-polls-search-bar {
+    width: 369px;
+    padding: 0.7rem; /* top | right | bottom | left */
+    font-size: 1rem;
+    font-family: Literata, 'Arial';
+    border: 2px solid #3E5622;
+    border-radius: 4px;
 }
 
+.all-polls-search-bar::placeholder {
+    color: black;
+    font-size: 1rem
+}
+
+.all-polls-search-bar:focus {
+    outline: none;
+}
+
+.Allpolls-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 31px;
+    height: 100%;
+    overflow-y: auto;
+     margin: 2.7rem 6.563rem 0rem 6.563rem;
+}
+
+.box-1 {
+    background-color: #709255;
+    border: 2px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 152px;
+    height: 130px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+.poll-link {
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-wrap: pretty;
+    font-size: 1.125rem;
+    font-family: Literata, 'Arial';
+    color: #FFFFFF;
+}
+
+.box-1:hover {
+   background-color: #FFFFFF;
+   color: #709255;
+   border-color: #709255;
+}
+
+
+.no-poll-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: Literata, 'Arial';
+    margin-top: 1.5rem;
+}
 
 /* .home-nav {
      display: flex;

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ViewAllCreatorPolls() {
   const [dataPoll, setDataPoll] = useState([]);
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     if (!user) return;
