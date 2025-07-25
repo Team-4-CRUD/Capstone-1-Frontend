@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/EditStyles.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EditPoll = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [editFormData, setEditFormData] = useState({
     title: "",
@@ -68,6 +70,7 @@ const EditPoll = () => {
     } catch (err) {
       console.error("Error updating poll:", err);
     }
+    navigate("/MyPolls");
   };
 
   const handleChange = (e, index = null) => {
@@ -95,6 +98,13 @@ const EditPoll = () => {
     setEditFormData((prevData) => ({
       ...prevData,
       Element: [...prevData.Element, { option: "", info: "", picture: "" }],
+    }));
+  };
+
+  const handleDeleteElement = (indexToDelete) => {
+    setEditFormData((prevData) => ({
+      ...prevData,
+      Element: prevData.Element.filter((_, idx) => idx !== indexToDelete),
     }));
   };
 
@@ -152,6 +162,12 @@ const EditPoll = () => {
                   onChange={(e) => handleChange(e, idx)}
                   required
                 />
+                <button
+                  type="button"
+                  className="delete-option-button"
+                  onClick={() => handleDeleteElement(idx)}
+                  disabled={editFormData.Element.length <= 2}
+                ></button>
               </div>
             ))}
 
