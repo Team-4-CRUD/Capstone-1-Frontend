@@ -36,33 +36,28 @@ function ViewAllPoll() {
         <img src={arrowLeft} alt="nav-btn" />
         <a href="/">Back Home</a>
       </div> */}
-      {/* <div className="container">
+      <div className="container">
         <h1 className="allpolls-title">All Polls</h1>
         <div className="search-container">
           <input
             type="text"
-            className="all-polls-search"
+            className="all-polls-search-bar"
             placeholder="Search..."
           />
         </div>
-      </div> */}
+      </div>
       {Forms.filter((poll) => poll.status === "published").length > 0 ? (
-        <ul>
+        <div className="Allpolls-grid">
           {Forms.filter((poll) => poll.status === "published").map(
             (poll, index) => (
-              <li key={index}>
-                <div>
-                  <NavLink to={`/Vote/${poll.pollForm_id}`}>
-                    <h3>{poll.title}</h3>
-                  </NavLink>
-                  <p>{poll.description}</p>
-                  <p>Status: {poll.status}</p>
-                  <p>Options: {poll.pollElements?.length || 0}</p>
+              <NavLink to={`/Vote/${poll.pollForm_id}`} className="poll-link">
+                <div className="box-1" key={index}>
+                  <p>{poll.title}</p>
                 </div>
-              </li>
+              </NavLink>
             )
           )}
-        </ul>
+        </div>
       ) : (
         <p className="no-poll-message">No polls available.</p>
       )}
