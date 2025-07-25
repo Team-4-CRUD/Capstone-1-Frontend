@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../styles/EditStyles.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const EditPoll = () => {
   const { id } = useParams();
@@ -11,7 +10,7 @@ const EditPoll = () => {
   const [editFormData, setEditFormData] = useState({
     title: "",
     description: "",
-    Element: [{ option: "", info: "", picture: "" }],
+    pollElements: [{ option: "", info: "", picture: "" }],
   });
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const EditPoll = () => {
         setEditFormData({
           title: res.data.title || "",
           description: res.data.description || "",
-          Element:
+          pollElements:
             Array.isArray(res.data.pollElements) &&
             res.data.pollElements.length > 0
               ? res.data.pollElements
@@ -51,7 +50,7 @@ const EditPoll = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const filledOptions = editFormData.Element.filter(
+    const filledOptions = editFormData.pollElements.filter(
       (el) => el.option.trim() !== ""
     );
 
@@ -67,24 +66,24 @@ const EditPoll = () => {
         { withCredentials: true }
       );
       console.log("Poll updated:", res.data);
+      navigate("/MyPolls");
     } catch (err) {
       console.error("Error updating poll:", err);
     }
-    navigate("/MyPolls");
   };
 
   const handleChange = (e, index = null) => {
     const { name, value } = e.target;
 
     if (index !== null) {
-      const updatedElements = [...editFormData.Element];
+      const updatedElements = [...editFormData.pollElements];
       updatedElements[index] = {
         ...updatedElements[index],
         [name]: value,
       };
       setEditFormData((prevData) => ({
         ...prevData,
-        Element: updatedElements,
+        pollElements: updatedElements,
       }));
     } else {
       setEditFormData((prevData) => ({
@@ -97,14 +96,19 @@ const EditPoll = () => {
   const handleAddElement = () => {
     setEditFormData((prevData) => ({
       ...prevData,
-      Element: [...prevData.Element, { option: "", info: "", picture: "" }],
+      pollElements: [
+        ...prevData.pollElements,
+        { option: "", info: "", picture: "" },
+      ],
     }));
   };
 
   const handleDeleteElement = (indexToDelete) => {
     setEditFormData((prevData) => ({
       ...prevData,
-      Element: prevData.Element.filter((_, idx) => idx !== indexToDelete),
+      pollElements: prevData.pollElements.filter(
+        (_, idx) => idx !== indexToDelete
+      ),
     }));
   };
 
@@ -135,41 +139,42 @@ const EditPoll = () => {
             />
           </div>
 
-          {Array.isArray(editFormData.Element) &&
-            editFormData.Element.map((el, idx) => (
-              <div key={idx}>
-                <input
-                  type="text"
-                  name="option"
-                  placeholder="Pick an Option"
-                  value={el.option}
-                  onChange={(e) => handleChange(e, idx)}
-                  required
-                />
-                <input
-                  type="text"
-                  name="info"
-                  placeholder="Write some Info"
-                  value={el.info}
-                  onChange={(e) => handleChange(e, idx)}
-                  required
-                />
-                <input
-                  type="url"
-                  name="picture"
-                  placeholder="Choose a picture"
-                  value={el.picture}
-                  onChange={(e) => handleChange(e, idx)}
-                  required
-                />
-                <button
-                  type="button"
-                  className="delete-option-button"
-                  onClick={() => handleDeleteElement(idx)}
-                  disabled={editFormData.Element.length <= 2}
-                ></button>
-              </div>
-            ))}
+          {editFormData.pollElements.map((el, idx) => (
+            <div key={idx}>
+              <input
+                type="text"
+                name="option"
+                placeholder="Pick an Option"
+                value={el.option}
+                onChange={(e) => handleChange(e, idx)}
+                required
+              />
+              <input
+                type="text"
+                name="info"
+                placeholder="Write some Info"
+                value={el.info}
+                onChange={(e) => handleChange(e, idx)}
+                required
+              />
+              <input
+                type="url"
+                name="picture"
+                placeholder="Choose a picture"
+                value={el.picture}
+                onChange={(e) => handleChange(e, idx)}
+                required
+              />
+              <button
+                type="button"
+                className="delete-option-button"
+                onClick={() => handleDeleteElement(idx)}
+                disabled={editFormData.pollElements.length <= 2}
+              >
+                ❌
+              </button>
+            </div>
+          ))}
 
           <input type="submit" value="Update Poll" />
           <button type="button" onClick={handleAddElement}>
