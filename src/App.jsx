@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
 import VoteForm from "./components/VoteForm";
 import ViewAllPoll from "./components/ViewAllPoll";
+import Profile from "./components/Profile";
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
+          <Route path="/profile" element={<Profile userInfo={user} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

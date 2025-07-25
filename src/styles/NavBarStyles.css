@@ -89,3 +89,22 @@
 .logout-btn:hover {
   background-color: #c82333;
 }
+
+
+/* user pfp styles */
+.user-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-container > a {
+ text-decoration: none;
+}
+
+.user-pfp {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: black;
+}

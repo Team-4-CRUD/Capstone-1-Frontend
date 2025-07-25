@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/NavBarStyles.css";
 
 const NavBar = ({ user, onLogout }) => {
@@ -32,15 +32,24 @@ const NavBar = ({ user, onLogout }) => {
         {user && (
           <div className="user-section">
             <Link to="/pollmaker" className="nav-link">
-              New Poll
+              Create Poll
             </Link>
             <Link to="/polls" className="nav-link">
-              View all your Forms
+              My Polls
             </Link>
             <Link to="/AllPolls" className="nav-link">
               All Polls
             </Link>
-            <span className="username">Welcome, {user.username}!</span>
+            <div className="user-container">
+              <img
+                src="https://robohash.org/flash"
+                alt="user-pfp"
+                className="user-pfp"
+              />
+              <Link to="/profile">
+                <span className="username">{user.username}!</span>
+              </Link>
+            </div>
             <button onClick={onLogout} className="logout-btn">
               Logout
             </button>
