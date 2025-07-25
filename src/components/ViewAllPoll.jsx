@@ -15,6 +15,7 @@ function ViewAllPoll() {
   }, []);
 
   const [Forms, setForms] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = async () => {
     try {
@@ -30,6 +31,15 @@ function ViewAllPoll() {
     fetchData();
   }, []);
 
+  const handleChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredItems = Forms.filter(
+    (item) =>
+      item.status === "published" &&
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       {/* <div className="home-nav">
@@ -43,20 +53,24 @@ function ViewAllPoll() {
             type="text"
             className="all-polls-search-bar"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={handleChange}
           />
         </div>
       </div>
-      {Forms.filter((poll) => poll.status === "published").length > 0 ? (
+      {filteredItems.length > 0 ? (
         <div className="Allpolls-grid">
-          {Forms.filter((poll) => poll.status === "published").map(
-            (poll, index) => (
-              <NavLink to={`/Vote/${poll.pollForm_id}`} className="poll-link">
-                <div className="box-1" key={index}>
-                  <p>{poll.title}</p>
-                </div>
-              </NavLink>
-            )
-          )}
+          {filteredItems.map((poll, index) => (
+            <NavLink
+              to={`/Vote/${poll.pollForm_id}`}
+              className="poll-link"
+              key={index}
+            >
+              <div className="box-1">
+                <p>{poll.title}</p>
+              </div>
+            </NavLink>
+          ))}
         </div>
       ) : (
         <p className="no-poll-message">No polls available.</p>

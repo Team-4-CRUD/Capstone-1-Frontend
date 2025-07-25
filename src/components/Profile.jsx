@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/ProfileStyles.css";
 
 const Profile = ({ userInfo }) => {
+  const [userData, setUserData] = useState([]);
+
   useEffect(() => {
     document.body.classList.add("profile-page");
 
@@ -15,6 +17,14 @@ const Profile = ({ userInfo }) => {
   if (!userInfo) {
     return <p className="loader">Loading profile...</p>;
   }
+
+  const fetchUserData = async () => {
+    try {
+    } catch (error) {
+      console.error(error);
+      console.log("Failed to fetch User Info! ❌");
+    }
+  };
 
   return (
     <>
