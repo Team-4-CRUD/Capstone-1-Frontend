@@ -3,7 +3,7 @@ import "../styles/voteForm.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import arrowLeft from "../assets/images/arrowLeft.png";
+// import arrowLeft from "../assets/images/arrowLeft.png";
 
 function VoteForm() {
   useEffect(() => {
@@ -117,9 +117,10 @@ function VoteForm() {
           withCredentials: true,
         }
       );
+      console.log(res.data);
     } catch (error) {
       console.error();
-      console.log("Error sending data");
+      console.log("Error sending data", error);
     }
   };
 
