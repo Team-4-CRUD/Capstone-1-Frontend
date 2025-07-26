@@ -13,7 +13,6 @@ const Profile = ({ userInfo }) => {
 
   useEffect(() => {
     document.body.classList.add("profile-page");
-
     return () => {
       document.body.classList.remove("profile-page");
     };
@@ -21,11 +20,13 @@ const Profile = ({ userInfo }) => {
 
   useEffect(() => {
     if (userInfo) {
+      // Always prioritize localStorage profilePicture if it exists
+      const savedProfilePicture = localStorage.getItem("profilePicture");
       setFormData({
         firstName: userInfo.firstName || "",
         lastName: userInfo.lastName || "",
         email: userInfo.email || "",
-        profilePicture: userInfo.profilePicture || "",
+        profilePicture: savedProfilePicture || userInfo.profilePicture || "",
       });
     }
   }, [userInfo]);
@@ -54,13 +55,19 @@ const Profile = ({ userInfo }) => {
 
       console.log("User updated:", response.data);
 
-      // After successful update, set formData with the updated profile picture
       setFormData({
         firstName: response.data.firstName,
         lastName: response.data.lastName,
         email: response.data.email,
-        profilePicture: response.data.profilePicture || formData.profilePicture, // Use the response data profile picture
+        profilePicture: response.data.profilePicture || formData.profilePicture,
       });
+
+      localStorage.setItem(
+        "profilePicture",
+        response.data.profilePicture || formData.profilePicture
+      );
+      // Dispatch a custom event to notify other components (like NavBar)
+      window.dispatchEvent(new Event("profilePictureUpdated"));
 
       setIsEditing(false);
     } catch (error) {
@@ -76,10 +83,7 @@ const Profile = ({ userInfo }) => {
         <div className="linear-gradient"></div>
         <div className="profile-info-container">
           <div className="user-info-container">
-            <img
-              src={formData.profilePicture || "https://robohash.org/flash"}
-              alt="user"
-            />
+            <img src={formData.profilePicture} alt="user" />
             <p>{userInfo.username}</p>
           </div>
           <div className="edit-btn-container">

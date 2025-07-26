@@ -1,8 +1,61 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/NavBarStyles.css";
+import axios from "axios";
 
 const NavBar = ({ user, onLogout }) => {
+  const [userPfp, setUserPfp] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      // Prefer localStorage profilePicture if available
+      const savedProfilePicture = localStorage.getItem("profilePicture");
+      if (savedProfilePicture) {
+        setUserPfp(savedProfilePicture);
+      } else {
+        // Fallback: fetch from backend
+        const fetchUserData = async () => {
+          try {
+            const res = await axios.get(`http://localhost:8080/api/users/me`, {
+              withCredentials: true,
+            });
+            setUserPfp(res.data.profilePicture);
+          } catch (error) {
+            console.error("Error fetching user profile:", error);
+          }
+        };
+        fetchUserData();
+      }
+    } else {
+      setUserPfp("");
+    }
+  }, [user]);
+
+  // Listen for changes to localStorage profilePicture (e.g., after profile update)
+  useEffect(() => {
+    const handleStorage = (e) => {
+      if (e.key === "profilePicture") {
+        setUserPfp(e.newValue || "");
+      }
+    };
+    const handleProfilePictureUpdated = () => {
+      const savedProfilePicture = localStorage.getItem("profilePicture");
+      setUserPfp(savedProfilePicture || "");
+    };
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener(
+      "profilePictureUpdated",
+      handleProfilePictureUpdated
+    );
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener(
+        "profilePictureUpdated",
+        handleProfilePictureUpdated
+      );
+    };
+  }, []);
+
   return (
     <nav className="navbar">
       <div className="nav-brand">
@@ -41,8 +94,9 @@ const NavBar = ({ user, onLogout }) => {
               All Polls
             </Link>
             <div className="user-container">
+              {/* Use the fetched profile picture */}
               <img
-                src="https://robohash.org/flash"
+                src={userPfp || "https://robohash.org/flash"} // Fallback to default if no profile picture
                 alt="user-pfp"
                 className="user-pfp"
               />
