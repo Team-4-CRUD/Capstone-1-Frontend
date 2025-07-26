@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Form, NavLink } from "react-router-dom";
 import arrowLeft from "../assets/images/arrowLeft.png";
+import Link from "../assets/images/link.png";
 
 function ViewAllPoll() {
   useEffect(() => {
@@ -40,6 +41,10 @@ function ViewAllPoll() {
       item.status === "published" &&
       item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const title = "This is an alert";
+  const description = "Thanks for subscribing to our newsletter!";
+
   return (
     <>
       {/* <div className="home-nav">
@@ -65,9 +70,25 @@ function ViewAllPoll() {
               to={`/Vote/${poll.pollForm_id}`}
               className="poll-link"
               key={index}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="box-1">
-                <p>{poll.title}</p>
+              <div className="tooltip-container">
+                <div className="box-1">
+                  <p>{poll.title}</p>
+                </div>
+                <span
+                  className="tooltip"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/Vote/${poll.pollForm_id}`
+                    );
+                    alert("Link copied to clipboard!");
+                  }}
+                >
+                  <img src={Link} alt="Link Png" />
+                </span>
               </div>
             </NavLink>
           ))}
