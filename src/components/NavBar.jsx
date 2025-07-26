@@ -95,11 +95,14 @@ const NavBar = ({ user, onLogout }) => {
             </Link>
             <div className="user-container">
               {/* Use the fetched profile picture */}
-              <img
-                src={userPfp || "https://robohash.org/flash"} // Fallback to default if no profile picture
-                alt="user-pfp"
-                className="user-pfp"
-              />
+              <Link to="/profile">
+                <img
+                  src={userPfp || "https://robohash.org/flash"}
+                  alt="user-pfp"
+                  className="user-pfp"
+                  style={{ cursor: "pointer" }}
+                />
+              </Link>
               <Link to="/profile">
                 <span className="username">{user.username}!</span>
               </Link>

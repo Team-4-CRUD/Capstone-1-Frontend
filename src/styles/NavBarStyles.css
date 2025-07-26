@@ -95,11 +95,15 @@
 .user-container {
   display: flex;
   align-items: center;
+  justify-content: center;
+
   cursor: pointer;
 }
 
 .user-container > a {
- text-decoration: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .user-pfp {
