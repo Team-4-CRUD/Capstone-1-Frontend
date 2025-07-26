@@ -29,6 +29,7 @@ const App = () => {
         const res = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
+        console.log("App: user from /me:", res.data);
         setUser(res.data.user);
       } catch {
         console.log("Not authenticated");
@@ -61,8 +62,11 @@ const App = () => {
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
-         + <Route path="/results/:pollFormId" element={<ViewVote />} />
-          <Route path="/profile" element={<Profile userInfo={user} />} />
+          <Route path="/results/:pollFormId" element={<ViewVote />} />
+          <Route
+            path="/profile"
+            element={<Profile userInfo={user} setUser={setUser} />}
+          />
           <Route path="/polls/edit/:id" element={<EditPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

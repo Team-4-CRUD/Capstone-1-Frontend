@@ -43,8 +43,8 @@ function ViewAllPoll() {
       item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const title = "This is an alert";
-  const description = "Thanks for subscribing to our newsletter!";
+  // const title = "This is an alert";
+  // const description = "Thanks for subscribing to our newsletter!";
 
   return (
     <>

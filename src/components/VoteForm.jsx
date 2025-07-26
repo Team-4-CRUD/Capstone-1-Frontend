@@ -45,7 +45,9 @@ function VoteForm() {
         setHasVoted(true);
         setMessage("You have already voted on this poll.");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error checking if voted: ", error);
+    }
   };
 
   useEffect(() => {
@@ -103,6 +105,7 @@ function VoteForm() {
           withCredentials: true,
         }
       );
+      console.log(res);
       setHasVoted(true);
       setMessage("Thank you for voting! Your response has been recorded.");
     } catch (error) {
