@@ -28,10 +28,10 @@ const PollMaker = () => {
       return;
     }
 
-    if (!formData.endDate || new Date(formData.endDate) <= new Date()) {
-      alert("Please set a valid future end date and time for the poll.");
-      return;
-    }
+    // if (!formData.endDate || new Date(formData.endDate) <= new Date()) {
+    //   alert("Please set a valid future end date and time for the poll.");
+    //   return;
+    // }
 
     try {
       const res = await axios.post(`${API_BASE}/PollForm`, formData, {

@@ -82,7 +82,20 @@ function ViewAllCreatorPolls() {
     }
   };
 
-  // Prevent errors for mapping
+  const handleDuplicate = async (pollId) => {
+    try {
+      await axios.post(
+        `http://localhost:8080/api/creator/${pollId}/duplicate`,
+        {},
+        { withCredentials: true }
+      );
+
+      fetchData();
+    } catch (error) {
+      console.error("Failed to duplicate poll:", error);
+    }
+  };
+
   const polls = Array.isArray(dataPoll) ? dataPoll : [];
 
   if (!user) {
@@ -127,6 +140,13 @@ function ViewAllCreatorPolls() {
                       disabled={!poll.pollForm_id}
                     >
                       Publish
+                    </button>
+
+                    <button
+                      onClick={() => handleDuplicate(poll.pollForm_id)}
+                      disabled={!poll.pollForm_id}
+                    >
+                      Duplicate
                     </button>
                   </>
                 )}

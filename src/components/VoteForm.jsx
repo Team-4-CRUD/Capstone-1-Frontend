@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 function VoteForm() {
   useEffect(() => {
     document.body.classList.add("poll-form-page");
-
     return () => {
       document.body.classList.remove("poll-form-page");
     };
@@ -16,6 +15,9 @@ function VoteForm() {
 
   const [pollForm, setPollForm] = useState([]);
   const [userSelections, setUserSelections] = useState([]);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [message, setMessage] = useState("");
+  const [warnedAboutIncomplete, setWarnedAboutIncomplete] = useState(false);
   const { pollFormId } = useParams();
 
   const fetchPollForm = async () => {
@@ -24,14 +26,31 @@ function VoteForm() {
         `http://localhost:8080/api/PollForm/${pollFormId}`
       );
       setPollForm(data || []);
-      console.log("Poll form fetched:", data);
+      if (data.hasVoted) {
+        setHasVoted(true);
+        setMessage("You have already voted on this poll.");
+      }
     } catch (error) {
       console.log("Error fetching poll form:", error);
     }
   };
 
+  const checkIfVoted = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/vote/has-voted/${pollFormId}`,
+        { withCredentials: true }
+      );
+      if (res.data.hasVoted) {
+        setHasVoted(true);
+        setMessage("You have already voted on this poll.");
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
     fetchPollForm();
+    checkIfVoted();
   }, [pollFormId]);
 
   useEffect(() => {
@@ -47,12 +66,31 @@ function VoteForm() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
     const formattedSelections = Object.keys(userSelections).map((key) => ({
       elementId: Number(key),
       rank: userSelections[key],
     }));
 
-    console.log(formattedSelections);
+    const totalOptions = pollForm?.pollElements?.length || 0;
+
+    if (formattedSelections.length !== totalOptions) {
+      if (!warnedAboutIncomplete) {
+        setWarnedAboutIncomplete(true);
+        setMessage(
+          "Warning: You haven't ranked all options. Click submit again to confirm."
+        );
+        return;
+      }
+    }
+
+    const ranks = Object.values(userSelections);
+    const uniqueRanks = new Set(ranks);
+
+    if (ranks.length !== uniqueRanks.size) {
+      setMessage("Each rank must be unique. Please check your selections.");
+      return;
+    }
 
     try {
       const res = await axios.post(
@@ -65,10 +103,16 @@ function VoteForm() {
           withCredentials: true,
         }
       );
-      console.log(res.data);
+      setHasVoted(true);
+      setMessage("Thank you for voting! Your response has been recorded.");
     } catch (error) {
-      console.error();
-      console.log("Error sending data", error);
+      if (error.response && error.response.status === 409) {
+        setMessage("You have already voted on this poll.");
+        setHasVoted(true);
+      } else {
+        setMessage("Error submitting vote. Please try again later.");
+      }
+      console.error(error);
     }
   };
 
@@ -117,6 +161,17 @@ function VoteForm() {
     <>
       {pollForm && pollForm.title && <h2>{pollForm.title}</h2>}
 
+      {message && (
+        <div
+          style={{
+            margin: "1rem 0",
+            color: hasVoted ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {message}
+        </div>
+      )}
       <form onSubmit={handleFormSubmit}>
         {pollForm.pollElements &&
           Array.isArray(pollForm.pollElements) &&
@@ -128,6 +183,7 @@ function VoteForm() {
                 id={`rank-${index}`}
                 value={userSelections[element.element_id] || ""}
                 onChange={(e) => handleRankSelection(element.element_id, e)}
+                disabled={hasVoted}
               >
                 <option value="">Select rank</option>
                 {[...Array(pollForm.pollElements.length)].map((_, i) => (
@@ -138,7 +194,7 @@ function VoteForm() {
               </select>
             </div>
           ))}
-        <button>Submit</button>
+        <button disabled={hasVoted}>Submit</button>
       </form>
     </>
   );
