@@ -12,6 +12,7 @@ const PollMaker = () => {
     title: "",
     description: "",
     Element: [{ option: "", info: "", picture: "" }],
+    endDate: "",
   });
 
   const handleSubmit = async (e) => {
@@ -24,6 +25,11 @@ const PollMaker = () => {
 
     if (filledOptions.length < 2) {
       alert("Please add at least two options before submitting the poll.");
+      return;
+    }
+
+    if (!formData.endDate || new Date(formData.endDate) <= new Date()) {
+      alert("Please set a valid future end date and time for the poll.");
       return;
     }
 
@@ -100,8 +106,11 @@ const PollMaker = () => {
                 private: e.target.checked,
               }))
             }
+            name="AuthUser"
           />
-          <label>Allow only authenticated users to vote?</label>
+          <label htmlFor="AuthUser">
+            Allow only authenticated users to vote?
+          </label>
         </div>
 
         {formData.Element.map((el, idx) => (
@@ -136,6 +145,18 @@ const PollMaker = () => {
         <button type="button" onClick={handleAddElement}>
           Add Option
         </button>
+        <input
+          type="datetime-local"
+          name="endDate"
+          value={formData.endDate}
+          onChange={(e) =>
+            setFormData((prevData) => ({
+              ...prevData,
+              endDate: e.target.value,
+            }))
+          }
+        />
+        <label htmlFor="endDate">Poll End Date & Time</label>
       </form>
     </>
   );
