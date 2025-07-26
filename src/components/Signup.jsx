@@ -10,6 +10,10 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    profilePicture: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
@@ -57,11 +61,13 @@ const Signup = () => {
         {
           username: formData.username,
           password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          profilePicture: formData.profilePicture,
         },
         { withCredentials: true }
       );
-
-      console.log("Signup response:", response);
 
       setUser(response.data.user);
       navigate("/");
@@ -114,6 +120,64 @@ const Signup = () => {
             />
             {errors.username && (
               <span className="error-text">{errors.username}</span>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className={errors.firstName ? "error" : ""}
+            />
+            {errors.firstName && (
+              <span className="error-text">{errors.firstName}</span>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name:</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className={errors.lastName ? "error" : ""}
+            />
+            {errors.lastName && (
+              <span className="error-text">{errors.lastName}</span>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={errors.email ? "error" : ""}
+            />
+            {errors.email && <span className="error-text">{errors.email}</span>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="profilePicture">Profile Picture:</label>
+            <input
+              type="url"
+              id="profilePicture"
+              name="profilePicture"
+              value={formData.profilePicture}
+              onChange={handleChange}
+              className={errors.profilePicture ? "error" : ""}
+            />
+            {errors.profilePicture && (
+              <span className="error-text">{errors.profilePicture}</span>
             )}
           </div>
 

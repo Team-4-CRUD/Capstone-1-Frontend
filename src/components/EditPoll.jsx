@@ -10,7 +10,7 @@ const EditPoll = () => {
   const [editFormData, setEditFormData] = useState({
     title: "",
     description: "",
-    pollElements: [{ option: "", info: "", picture: "" }],
+    pollElements: [{ id: Date.now(), option: "", info: "", picture: "" }],
   });
 
   useEffect(() => {
@@ -28,11 +28,10 @@ const EditPoll = () => {
         setEditFormData({
           title: res.data.title || "",
           description: res.data.description || "",
-          pollElements:
-            Array.isArray(res.data.pollElements) &&
-            res.data.pollElements.length > 0
-              ? res.data.pollElements
-              : [{ option: "", info: "", picture: "" }],
+          pollElements: (res.data.pollElements || []).map((el) => ({
+            ...el,
+            id: el.id || Date.now() + Math.random(), // Ensure uniqueness
+          })),
         });
       } catch (err) {
         console.error("Error fetching poll data:", err);
@@ -98,17 +97,15 @@ const EditPoll = () => {
       ...prevData,
       pollElements: [
         ...prevData.pollElements,
-        { option: "", info: "", picture: "" },
+        { id: Date.now(), option: "", info: "", picture: "" },
       ],
     }));
   };
 
-  const handleDeleteElement = (indexToDelete) => {
+  const handleDeleteElement = (idToDelete) => {
     setEditFormData((prevData) => ({
       ...prevData,
-      pollElements: prevData.pollElements.filter(
-        (_, idx) => idx !== indexToDelete
-      ),
+      pollElements: prevData.pollElements.filter((el) => el.id !== idToDelete),
     }));
   };
 
@@ -137,16 +134,37 @@ const EditPoll = () => {
               onChange={handleChange}
               required
             />
+            <input
+              type="checkbox"
+              checked={editFormData.private || false}
+              onChange={(e) =>
+                setEditFormData((prevData) => ({
+                  ...prevData,
+                  private: e.target.checked,
+                }))
+              }
+              name="AuthUser"
+            />
+            <label htmlFor="AuthUser">
+              Allow only authenticated users to vote?
+            </label>
           </div>
 
-          {editFormData.pollElements.map((el, idx) => (
-            <div key={idx}>
+          {editFormData.pollElements.map((el) => (
+            <div key={el.id}>
               <input
                 type="text"
                 name="option"
                 placeholder="Pick an Option"
                 value={el.option}
-                onChange={(e) => handleChange(e, idx)}
+                onChange={(e) =>
+                  handleChange(
+                    e,
+                    editFormData.pollElements.findIndex(
+                      (opt) => opt.id === el.id
+                    )
+                  )
+                }
                 required
               />
               <input
@@ -154,7 +172,14 @@ const EditPoll = () => {
                 name="info"
                 placeholder="Write some Info"
                 value={el.info}
-                onChange={(e) => handleChange(e, idx)}
+                onChange={(e) =>
+                  handleChange(
+                    e,
+                    editFormData.pollElements.findIndex(
+                      (opt) => opt.id === el.id
+                    )
+                  )
+                }
                 required
               />
               <input
@@ -162,13 +187,20 @@ const EditPoll = () => {
                 name="picture"
                 placeholder="Choose a picture"
                 value={el.picture}
-                onChange={(e) => handleChange(e, idx)}
+                onChange={(e) =>
+                  handleChange(
+                    e,
+                    editFormData.pollElements.findIndex(
+                      (opt) => opt.id === el.id
+                    )
+                  )
+                }
                 required
               />
               <button
                 type="button"
                 className="delete-option-button"
-                onClick={() => handleDeleteElement(idx)}
+                onClick={() => handleDeleteElement(el.id)}
                 disabled={editFormData.pollElements.length <= 2}
               >
                 ❌
