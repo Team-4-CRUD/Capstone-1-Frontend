@@ -159,11 +159,7 @@ function ViewAllMyPolls() {
           {dataPoll
             .filter((poll) => poll && poll.pollForm_id)
             .map((poll) => (
-              <div
-                key={poll.pollForm_id}
-                className="poll-card"
-                onClick={() => navigate(`/polls/${poll.pollForm_id}`)}
-              >
+              <div key={poll.pollForm_id} className="poll-card">
                 <h3>{poll.title}</h3>
                 {filterStatus === "createdPolls" ? (
                   <>

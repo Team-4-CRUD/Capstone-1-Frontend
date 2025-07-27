@@ -77,8 +77,7 @@ body.Creator-page {
 
 .poll-grid-creator {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .poll-card {
@@ -87,6 +86,7 @@ body.Creator-page {
     background-color: #ffffff;
     border: 1px solid #709255;
     border-radius: 14px;
+    margin-bottom: 1rem;
 }
 
 .poll-card h3 {
