@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/PollMakerStyles.css";
 import arrowLeft from "../assets/images/arrowLeft.png";
+import arrowRight from "../assets/images/arrowRight.png";
+import { Link } from "react-router-dom";
+import ReactDOM from "react-dom";
+import Modal from "react-modal";
 
 const API_BASE = "http://localhost:8080/api";
 
@@ -79,19 +83,99 @@ const PollMaker = () => {
 
   return (
     <>
-      {/* <div className="split-screen">
+      <div className="split-screen">
         <div className="left-side-imgBg"></div>
         <div className="right-side-poll-container">
-          <div className="home-nav">
-            <img src={arrowLeft} alt="home nav" />
-            <p>Back Home</p>
+          <div className="nav-container">
+            <div className="home-nav">
+              <img src={arrowLeft} alt="home nav" />
+              <Link to="/">Back Home</Link>
+            </div>
+            <div className="date-time-nav">
+              <Link to="/">Set EndDate & Time</Link>
+              <img src={arrowRight} alt="time and nav nav" />
+            </div>
           </div>
-        </div>
-      </div> */}
-      {/* <h1>Poll Maker!</h1> */}
-      {/* <img className="react-logo" src="/react-logo.svg" alt="React Logo" /> */}
+          <h1 className="createPoll-title">Create Poll</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="Title-container">
+              <label htmlFor="title">Title:</label>
+              <input
+                type="text"
+                placeholder="Pick a Title"
+                name="title"
+                onChange={handleChange}
+                value={formData.title}
+                required
+              />
+            </div>
+            <div className="description-container">
+              <label htmlFor="description">Description:</label>
+              <input
+                type="text"
+                placeholder="Write a Description"
+                name="description"
+                onChange={handleChange}
+                value={formData.description}
+                required
+              />
+            </div>
+            <div className="auth-btn-container">
+              <input
+                type="checkbox"
+                checked={formData.private || false}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    private: e.target.checked,
+                  }))
+                }
+                name="AuthUser"
+                className="auth-btn"
+              />
+            </div>
 
-      <p>Here you can create your own polls.</p>
+            {formData.Element.map((el, idx) => (
+              <div key={idx} className="options-container">
+                <label htmlFor="option">Poll Option {idx + 1}:</label>
+                <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="text"
+                  name="option"
+                  placeholder="Pick an Option"
+                  value={el.option}
+                  required
+                />
+                <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="text"
+                  name="info"
+                  placeholder="Write some Info"
+                  value={el.info}
+                  required
+                />
+                <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="url"
+                  name="picture"
+                  placeholder="Choose a picture"
+                  value={el.picture}
+                  required
+                />
+              </div>
+            ))}
+            <div className="submit-container">
+              <input type="submit" />
+              <button type="button" onClick={handleAddElement}>
+                Add Option
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {/* <h1>Poll Maker!</h1> */}
+
+      {/* <p>Here you can create your own polls.</p>
       <p>More features coming soon!</p>
       <p>Stay tuned!</p>
 
@@ -173,7 +257,7 @@ const PollMaker = () => {
           }
         />
         <label htmlFor="endDate">Poll End Date & Time</label>
-      </form>
+      </form> */}
     </>
   );
 };

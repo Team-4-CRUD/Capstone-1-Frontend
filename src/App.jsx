@@ -18,6 +18,8 @@ import ViewAllPoll from "./components/ViewAllPoll";
 import ViewVote from "./components/Votes";
 import Profile from "./components/Profile";
 import EditPoll from "./components/EditPoll";
+import ReactDOM from "react-dom";
+import Modal from "react-modal";
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -29,7 +31,7 @@ const App = () => {
         const res = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
-        setUser(res.data.user);
+        setUser(res.data);
       } catch {
         console.log("Not authenticated");
         setUser(null);
@@ -61,7 +63,7 @@ const App = () => {
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
-         + <Route path="/results/:pollFormId" element={<ViewVote />} />
+          <Route path="/results/:pollFormId" element={<ViewVote />} />
           <Route path="/profile" element={<Profile userInfo={user} />} />
           <Route path="/polls/edit/:id" element={<EditPoll />} />
           <Route path="*" element={<NotFound />} />
@@ -80,4 +82,5 @@ const Root = () => (
 );
 
 const root = createRoot(document.getElementById("root"));
+Modal.setAppElement(root);
 root.render(<Root />);
