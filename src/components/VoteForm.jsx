@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../styles/voteForm.css";
 import { useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-// import arrowLeft from "../assets/images/arrowLeft.png";
+import { Link, useParams } from "react-router-dom";
+import arrowLeft from "../assets/images/arrowLeft.png";
 
 function VoteForm() {
   useEffect(() => {
@@ -147,85 +147,137 @@ function VoteForm() {
   };
 
   return (
-    // <div className="poll-container">
-    //   <div className="exit-nav">
-    //     <img src={arrowLeft} alt="Exit" />
-    //     <a href="/">Exit Voting</a>
-    //   </div>
-    //   <div className="poll-grid">
-    //     <div className="poll-info">
-    //       <p className="poll-title">Best Drake Album</p>
-    //       <p className="poll-description">
-    //         Celebrating the Drake album that delivers the most iconic blend of
-    //         lyrics, production, and cultural impact.
-    //       </p>
-    //     </div>
-    //     <div className="poll-options-grid">
-    //       <div className="options-div">
-    //         <img src="/Rectangle 68.png" alt="Option 1" />
-    //         <p>Take Care</p>
-    //       </div>
-    //       <div className="options-div">
-    //         <img src="/Rectangle 69.png" alt="Option 2" />
-    //         <p>Certified Lover Boy</p>
-    //       </div>
-    //       <div className="options-div">
-    //         <img src="/Rectangle 70.png" alt="Option 3" />
-    //         <p>For All the Dogs</p>
-    //       </div>
-    //       <div className="options-div">
-    //         <img src="/Rectangle 71.png" alt="Option 4" />
-    //         <p>Views</p>
-    //       </div>
-    //       <div className="options-div">
-    //         <img src="/Rectangle 72.png" alt="Option 5" />
-    //         <p>Thank Me Later</p>
-    //       </div>
-    //       <div className="options-div">
-    //         <img src="/Rectangle 73.png" alt="Option 6" />
-    //         <p>$ome $exy $ongs 4 U</p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <>
-      {pollForm && pollForm.title && <h2>{pollForm.title}</h2>}
-
-      {message && (
-        <div
-          style={{
-            margin: "1rem 0",
-            color: hasVoted ? "green" : "red",
-            fontWeight: "bold",
-          }}
-        >
-          {message}
+      <div className="poll-container">
+        <div className="exit-nav">
+          <img src={arrowLeft} alt="Exit" />
+          <Link to="/AllPolls">Exit Voting</Link>
         </div>
-      )}
-      <form onSubmit={handleFormSubmit}>
-        {pollForm.pollElements &&
-          Array.isArray(pollForm.pollElements) &&
-          pollForm.pollElements.map((element, index) => (
-            <div key={index} className="option">
-              <p>{element.option}</p>
-              <select
-                name="rank"
-                id={`rank-${index}`}
-                value={userSelections[element.element_id] || ""}
-                onChange={(e) => handleRankSelection(element.element_id, e)}
-                disabled={hasVoted}
+        <div className="poll-grid">
+          <div className="poll-info">
+            {pollForm && pollForm.title && (
+              <p className="poll-title">{pollForm.title}</p>
+            )}
+            <p className="poll-description">{pollForm.description}</p>
+            {message && (
+              <div
+                style={{
+                  margin: "1rem 0",
+                  color: hasVoted ? "green" : "red",
+                  fontWeight: "bold",
+                }}
               >
-                <option value="">Select rank</option>
-                {[...Array(pollForm.pollElements.length)].map((_, i) => (
-                  <option key={i} value={i + 1}>
-                    Rank {i + 1}
-                  </option>
-                ))}
-              </select>
+                {message}
+              </div>
+            )}
+          </div>
+          <form onSubmit={handleFormSubmit} className="poll-options-form">
+            {pollForm.pollElements &&
+              Array.isArray(pollForm.pollElements) &&
+              pollForm.pollElements.length > 0 && (
+                <div className="poll-options-grid">
+                  {pollForm.pollElements.map((element, index) => {
+                    return (
+                      <div key={index} className="options-div">
+                        {/* Only render option name and dropdown */}
+                        <p>{element.option}</p>
+                        <select
+                          name="rank"
+                          id={`rank-${index}`}
+                          value={userSelections[element.element_id] || ""}
+                          onChange={(e) =>
+                            handleRankSelection(element.element_id, e)
+                          }
+                          disabled={hasVoted}
+                        >
+                          <option value="">Select rank</option>
+                          {[...Array(pollForm.pollElements.length)].map(
+                            (_, i) => (
+                              <option key={i} value={i + 1}>
+                                Rank {i + 1}
+                              </option>
+                            )
+                          )}
+                        </select>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            <div className="button-container">
+              <button className="submit-button" disabled={hasVoted}>
+                Submit
+              </button>
             </div>
-          ))}
+            {/* Submit Button */}
+          </form>
+        </div>
+      </div>
+
+      {/* <div className="poll-options-grid">
+        <div className="options-div">
+          <img src="/Rectangle 68.png" alt="Option 1" />
+          <p>Take Care</p>
+        </div>
+        <div className="options-div">
+          <img src="/Rectangle 69.png" alt="Option 2" />
+          <p>Certified Lover Boy</p>
+        </div>
+        <div className="options-div">
+          <img src="/Rectangle 70.png" alt="Option 3" />
+          <p>For All the Dogs</p>
+        </div>
+        <div className="options-div">
+          <img src="/Rectangle 71.png" alt="Option 4" />
+          <p>Views</p>
+        </div>
+        <div className="options-div">
+          <img src="/Rectangle 72.png" alt="Option 5" />
+          <p>Thank Me Later</p>
+        </div>
+        <div className="options-div">
+          <img src="/Rectangle 73.png" alt="Option 6" />
+          <p>$ome $exy $ongs 4 U</p>
+        </div>
+      </div> */}
+
+      {/* {pollForm && pollForm.title && <h2>{pollForm.title}</h2>}
+
+{message && (
+  <div
+  style={{
+    margin: "1rem 0",
+    color: hasVoted ? "green" : "red",
+    fontWeight: "bold",
+    }}
+    >
+    {message}
+    </div>
+    )}
+    <form onSubmit={handleFormSubmit}>
+    {pollForm.pollElements &&
+    Array.isArray(pollForm.pollElements) &&
+    pollForm.pollElements.map((element, index) => (
+      <div key={index} className="option">
+      <p>{element.option}</p>
+      <select
+      name="rank"
+      id={`rank-${index}`}
+      value={userSelections[element.element_id] || ""}
+      onChange={(e) => handleRankSelection(element.element_id, e)}
+      disabled={hasVoted}
+      >
+      <option value="">Select rank</option>
+      {[...Array(pollForm.pollElements.length)].map((_, i) => (
+        <option key={i} value={i + 1}>
+        Rank {i + 1}
+        </option>
+        ))}
+        </select>
+        </div>
+        ))}
         <button disabled={hasVoted}>Submit</button>
-      </form>
+        </form> */}
     </>
   );
 }
