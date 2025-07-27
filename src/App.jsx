@@ -10,7 +10,7 @@ import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
 import ViewAllMyPolls from "./components/ViewAllMyPolls";
 import { API_URL } from "./shared";
-import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+import { useAuth, AuthProvider } from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
 import VoteForm from "./components/VoteForm";
@@ -30,7 +30,7 @@ const App = () => {
           withCredentials: true,
         });
         console.log("App: user from /me:", res.data);
-        setUser(res.data.user);
+        setUser(res.data); // ✅ FIXED HERE
       } catch {
         console.log("Not authenticated");
         setUser(null);
