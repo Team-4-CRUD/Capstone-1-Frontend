@@ -8,22 +8,119 @@
 }
 
 body.edit-page {
-    background-color: #D5E0CF;
+  height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f3f4f3;
 }
 
 
-.delete-option-button {
-  margin-left: 10px;
-  color: white;
-  background-color: red;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
+.split-screen-Edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.poll-option-group {
-  display: flex;
-  gap: 10px;
+
+.left-side-Edit {
+  flex: 1;
+  background-image: url('../assets/images/PollMakerBg.jpg'); 
+  background-size: cover;
+  background-position: center;
+}
+
+.right-side-Edit {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.edit-poll-title {
+  text-align: center;
+  font-size: 2rem;
+  font-family: Inconsolata, 'Arial';
+  font-weight: 600;
+  margin: 1.5rem 0rem 1.4rem 1.9rem;
+}
+
+
+.edit-header-fields, .description-edit-field, .options-container-edit {
+   margin: 0rem 0rem 1rem 1.9rem;
+}
+
+.edit-header-fields label, .description-edit-field label, .options-container-edit label  {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family:  Literata, 'Arial';
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.edit-header-fields input, .description-edit-field input {
+   padding: 1rem;
+    font-size: 0.875rem;
+    font-family: Work Sans, 'Arial';
+    border-radius: 24px;
+    border: 1px solid #709255;
+    width: 95%;
+}
+
+.edit-header-fields input:focus, .description-edit-field input:focus {
+  outline: none;
+}
+
+.options-container-edit input  {
+  padding: 1rem;
+    font-size: 0.875rem;
+    font-family: Work Sans, 'Arial';
+    border-radius: 24px;
+    border: 1px solid #709255;
+    width: 95%;
+    margin-bottom: 1rem;
+}
+
+.delete-option-button, .update-poll-container  {
+   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: center;
+  gap: 1.5rem;
 }
+
+.options-container-edit button {
+  background-color: #ffffff;
+  color: red;
+  border: 1px solid red;
+  border-radius: 20px;
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: Outfit, 'Arial';
+  width: 380px;
+  transition: all ease 0.3s;
+}
+
+.options-container-edit button:hover {
+  background-color: red;
+  color: #ffffff;
+}
+
+.update-poll-container input, .update-poll-container button {
+  background-color: #ffffff;
+  color: #709255;
+  border: 2px solid #709255;
+  width: 200px;
+  padding: 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-family: Outfit, 'Arial';
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+.update-poll-container input:hover, .update-poll-container button:hover {
+  background-color: #709255;
+  color: #ffffff;
+}
+
+
+
+
+
+
