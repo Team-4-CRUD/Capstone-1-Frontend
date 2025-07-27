@@ -10,7 +10,7 @@ function ViewAllPoll() {
   const [Forms, setForms] = useState([]);
   const [filterStatus, setFilterStatus] = useState("published");
   const [searchQuery, setSearchQuery] = useState("");
- 
+
   useEffect(() => {
     document.body.classList.add("Allpoll-page");
 
@@ -66,19 +66,24 @@ function ViewAllPoll() {
         <img src={arrowLeft} alt="nav-btn" />
         <a href="/">Back Home</a>
       </div> */}{" "}
-      <div>
-        <label htmlFor="status-select">View Polls:</label>
-        <select
-          id="status-select"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option value="published"> Published </option>
-          <option value="ended"> Results </option>
-        </select>
-      </div>
       <div className="container">
-        <h1 className="allpolls-title">All Polls</h1>
+        <div className="flexAllpoll">
+          <h1 className="allpolls-title">All Polls</h1>
+          <div>
+            <label htmlFor="status-select" className="viewPoll-title">
+              View Polls:
+            </label>
+            <select
+              id="status-select"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="selection-dropdown-allPolls"
+            >
+              <option value="published"> Published </option>
+              <option value="ended"> Results </option>
+            </select>
+          </div>
+        </div>
         <div className="search-container">
           <input
             type="text"
@@ -119,7 +124,7 @@ function ViewAllPoll() {
                 >
                   <img src={Link} alt="Link Png" />
                 </span>
-                  <p>Current Votes: {poll.totalVotes}</p>
+                <p>Current Votes: {poll.totalVotes}</p>
               </div>
             </NavLink>
           ))}
