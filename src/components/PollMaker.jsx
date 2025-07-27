@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import css page here
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/PollMakerStyles.css";
+import arrowLeft from "../assets/images/arrowLeft.png";
 
 const API_BASE = "http://localhost:8080/api";
 
 const PollMaker = () => {
+  useEffect(() => {
+    document.body.classList.add("PollCreation-page");
+    return () => {
+      document.body.classList.remove("PollCreation-page");
+    };
+  }, []);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -72,7 +79,16 @@ const PollMaker = () => {
 
   return (
     <>
-      <h1>Poll Maker!</h1>
+      {/* <div className="split-screen">
+        <div className="left-side-imgBg"></div>
+        <div className="right-side-poll-container">
+          <div className="home-nav">
+            <img src={arrowLeft} alt="home nav" />
+            <p>Back Home</p>
+          </div>
+        </div>
+      </div> */}
+      {/* <h1>Poll Maker!</h1> */}
       {/* <img className="react-logo" src="/react-logo.svg" alt="React Logo" /> */}
 
       <p>Here you can create your own polls.</p>
