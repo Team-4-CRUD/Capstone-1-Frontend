@@ -10,7 +10,7 @@ function ViewAllPoll() {
   const [Forms, setForms] = useState([]);
   const [filterStatus, setFilterStatus] = useState("published");
   const [searchQuery, setSearchQuery] = useState("");
- 
+
   useEffect(() => {
     document.body.classList.add("Allpoll-page");
 
@@ -31,6 +31,7 @@ function ViewAllPoll() {
               const res = await axios.get(
                 `http://localhost:8080/api/vote/TotalVoteCast/${poll.pollForm_id}`
               );
+              //includes everything from the original poll, plus totalVotes
               return { ...poll, totalVotes: res.data.totalVotes || 0 };
             } catch {
               return { ...poll, totalVotes: 0 };
@@ -119,7 +120,7 @@ function ViewAllPoll() {
                 >
                   <img src={Link} alt="Link Png" />
                 </span>
-                  <p>Current Votes: {poll.totalVotes}</p>
+                <p>Current Votes: {poll.totalVotes}</p>
               </div>
             </NavLink>
           ))}
