@@ -5,7 +5,8 @@
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
     { "src": "/react-logo.svg", "dest": "/react-logo.svg" },
     { "src": "/spongebob-404.webp", "dest": "/spongebob-404.webp" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/index.html" },
+    { "src": "/img/(.*)", "dest": "/img/$1" }
   ],
   "outputDirectory": "dist"
 }
