@@ -5,15 +5,12 @@ import axios from "axios";
 import { Form, NavLink } from "react-router-dom";
 import arrowLeft from "../assets/images/arrowLeft.png";
 import Link from "../assets/images/link.png";
-import { useParams } from "react-router-dom";
 
 function ViewAllPoll() {
   const [Forms, setForms] = useState([]);
   const [filterStatus, setFilterStatus] = useState("published");
   const [searchQuery, setSearchQuery] = useState("");
-  const [totalVotes, setTotalVotes] = useState("");
-  const { VoteId } = useParams();
-
+ 
   useEffect(() => {
     document.body.classList.add("Allpoll-page");
 
