@@ -105,7 +105,7 @@ function VoteForm() {
           withCredentials: true,
         }
       );
-      console.log(res.data);
+      console.log(response.data);
       setHasVoted(true);
       setMessage("Thank you for voting! Your response has been recorded.");
     } catch (error) {
