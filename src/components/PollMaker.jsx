@@ -121,18 +121,31 @@ const PollMaker = () => {
               />
             </div>
             <div className="auth-btn-container">
-              <input
-                type="checkbox"
-                checked={formData.private || false}
-                onChange={(e) =>
+              <button
+                type="button"
+                className={`auth-btn${formData.private ? " active" : ""}`}
+                onClick={() =>
                   setFormData((prevData) => ({
                     ...prevData,
-                    private: e.target.checked,
+                    private: !prevData.private,
                   }))
                 }
-                name="AuthUser"
-                className="auth-btn"
-              />
+                style={{
+                  background: formData.private ? "#709255" : "#ffffff",
+                  color: formData.private ? "#fff" : "#333",
+                  border: "1px solid #709255",
+                  borderRadius: "20px",
+                  padding: "1rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontFamily: "Outfit",
+                  width: "380px",
+                }}
+              >
+                {formData.private
+                  ? "Auth-Only Voting: ON"
+                  : "Auth-Only Voting: OFF"}
+              </button>
             </div>
 
             {formData.Element.map((el, idx) => (
@@ -173,91 +186,6 @@ const PollMaker = () => {
           </form>
         </div>
       </div>
-      {/* <h1>Poll Maker!</h1> */}
-
-      {/* <p>Here you can create your own polls.</p>
-      <p>More features coming soon!</p>
-      <p>Stay tuned!</p>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="title"
-            placeholder="Pick a Title"
-            value={formData.title}
-            required
-          />
-          <input
-            onChange={handleChange}
-            type="text"
-            name="description"
-            placeholder="Write a Description"
-            value={formData.description}
-            required
-          />
-          <input
-            type="checkbox"
-            checked={formData.private || false}
-            onChange={(e) =>
-              setFormData((prevData) => ({
-                ...prevData,
-                private: e.target.checked,
-              }))
-            }
-            name="AuthUser"
-          />
-          <label htmlFor="AuthUser">
-            Allow only authenticated users to vote?
-          </label>
-        </div>
-
-        {formData.Element.map((el, idx) => (
-          <div key={idx}>
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="text"
-              name="option"
-              placeholder="Pick an Option"
-              value={el.option}
-              required
-            />
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="text"
-              name="info"
-              placeholder="Write some Info"
-              value={el.info}
-              required
-            />
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="url"
-              name="picture"
-              placeholder="Choose a picture"
-              value={el.picture}
-              required
-            />
-          </div>
-        ))}
-        <input type="submit" />
-        <button type="button" onClick={handleAddElement}>
-          Add Option
-        </button>
-        <input
-          type="datetime-local"
-          name="endDate"
-          value={formData.endDate}
-          onChange={(e) =>
-            setFormData((prevData) => ({
-              ...prevData,
-              endDate: e.target.value,
-            }))
-          }
-        />
-        <label htmlFor="endDate">Poll End Date & Time</label>
-      </form> */}
     </>
   );
 };

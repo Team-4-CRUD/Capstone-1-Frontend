@@ -67,19 +67,24 @@ function ViewAllPoll() {
         <img src={arrowLeft} alt="nav-btn" />
         <a href="/">Back Home</a>
       </div> */}{" "}
-      <div>
-        <label htmlFor="status-select">View Polls:</label>
-        <select
-          id="status-select"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option value="published"> Published </option>
-          <option value="ended"> Results </option>
-        </select>
-      </div>
       <div className="container">
-        <h1 className="allpolls-title">All Polls</h1>
+        <div className="flexAllpoll">
+          <h1 className="allpolls-title">All Polls</h1>
+          <div>
+            <label htmlFor="status-select" className="viewPoll-title">
+              View Polls:
+            </label>
+            <select
+              id="status-select"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="selection-dropdown-allPolls"
+            >
+              <option value="published"> Published </option>
+              <option value="ended"> Results </option>
+            </select>
+          </div>
+        </div>
         <div className="search-container">
           <input
             type="text"

@@ -12,3 +12,146 @@
 body.Creator-page {
     background-color: #D5E0CF;
 }
+
+
+
+.creator-container {
+    margin: 3.5rem 4rem 0rem 4rem;
+}
+
+
+.creatorAllpolls-title {
+    font-family: Outfit, 'Arial';
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+
+.nav-container-creator {
+    display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.home-nav-creator, .create-poll-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-nav-creator a, .create-poll-container a {
+    font-size: 1rem;
+    font-family: Inconsolata, 'Arial';
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.title-select-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.select-container label {
+   font-family:  Literata, 'Arial';
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+
+.selection-dropdown {
+    width: 200px;
+    padding: 0.75rem;
+    font-family: Outfit, 'Arial';
+    font-size: 1rem;
+    border-radius: 25px;
+    border: 2px solid #709255;
+}
+
+.selection-dropdown:focus {
+    outline: none;
+}
+
+.poll-grid-creator {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.poll-card {
+    width: 500px;
+    padding: 0.7rem;
+    background-color: #ffffff;
+    border: 1px solid #709255;
+    border-radius: 14px;
+    margin-bottom: 1rem;
+}
+
+.poll-card h3 {
+    font-family: Incosolata, 'Arial';
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+
+
+.poll-card p {
+    font-family: Work Sans, 'Arial';
+}
+
+.poll-card button {
+    padding: 0.75rem;
+    margin-right: 10px;
+    font-family: Literata, 'Arial';
+    font-weight: 500;
+    background-color: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+.delete-btn-creator, .end-btn-creator {
+    border: 2px solid red;
+    width: 100px;
+}
+
+.edit-btn-creator {
+    border: 2px solid yellow;
+    width: 100px;
+}
+
+.Publish-btn-creator {
+    border: 2px solid #709255;
+    width: 100px;
+}
+
+.duplicate-btn-creator {
+    border: 2px solid rgb(255, 89, 0);
+    width: 100px;
+}
+
+.delete-btn-creator {
+    margin-bottom: 10px;
+}
+
+.delete-btn-creator:hover, .end-btn-creator:hover {
+    background-color: red;
+    color: white;
+}
+
+
+.edit-btn-creator:hover {
+    background-color: yellow;
+    color: rgb(0, 0, 0);
+}
+
+.Publish-btn-creator:hover {
+    background-color: #709255;
+    color: white;
+}
+
+.duplicate-btn-creator:hover {
+    background-color: rgb(255, 89, 0);
+    color: white;
+}
