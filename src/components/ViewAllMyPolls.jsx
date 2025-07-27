@@ -3,6 +3,10 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "../styles/CreatorPollsStyles.css";
+import arrowLeft from "../assets/images/arrowLeft.png";
+import arrowRight from "../assets/images/arrowRight.png";
+import { Link } from "react-router-dom";
 
 function ViewAllMyPolls() {
   const [filterStatus, setFilterStatus] = useState("createdPolls");
@@ -10,6 +14,13 @@ function ViewAllMyPolls() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
+
+  useEffect(() => {
+    document.body.classList.add("Creator-page");
+    return () => {
+      document.body.classList.remove("Creator-page");
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -108,23 +119,35 @@ function ViewAllMyPolls() {
   };
 
   if (!user) {
-    return <p>Please log in to view your polls.</p>;
+    return <p className="auth-message">Please log in to view your polls.</p>;
   }
 
   return (
-    <div>
-      <h1>{user.username}'s PollForms</h1>
-
-      <div>
-        <label htmlFor="status-select">View Forms: </label>
-        <select
-          id="status-select"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option value="createdPolls">My Polls</option>
-          <option value="votedPolls">My Voted-on Polls</option>
-        </select>
+    <div className="creator-container">
+      <div className="nav-container-creator">
+        <div className="home-nav-creator">
+          <img src={arrowLeft} alt="home nav" />
+          <Link to="/">Back Home</Link>
+        </div>
+        <div className="create-poll-container">
+          <Link to="/pollmaker">Create Poll</Link>
+          <img src={arrowRight} alt="create poll nav" />
+        </div>
+      </div>
+      <div className="title-select-container">
+        <h1 className="creatorAllpolls-title">Your Polls</h1>
+        <div className="select-container">
+          <label htmlFor="status-select">View Forms: </label>
+          <select
+            id="status-select"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="selection-dropdown"
+          >
+            <option value="createdPolls">My Polls</option>
+            <option value="votedPolls">My Voted-on Polls</option>
+          </select>
+        </div>
       </div>
 
       {loading ? (
@@ -132,70 +155,77 @@ function ViewAllMyPolls() {
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : dataPoll.length > 0 ? (
-        <ul>
+        <div className="poll-grid-creator">
           {dataPoll
             .filter((poll) => poll && poll.pollForm_id)
             .map((poll) => (
-              <li key={poll.pollForm_id} style={{ marginBottom: "20px" }}>
-                <div>
-                  <NavLink to={`/polls/${poll.pollForm_id}`}>
-                    <h3>{poll.title}</h3>
-                  </NavLink>
-
-                  {filterStatus === "createdPolls" ? (
-                    <>
-                      <p>{poll.description}</p>
-                      <p>Status: {poll.status}</p>
-                      <p>Options: {poll.pollElements?.length || 0}</p>
-                      {poll.picture && (
-                        <img
-                          src={poll.picture}
-                          alt="Poll"
-                          style={{ maxWidth: "200px", maxHeight: "150px" }}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <p style={{ fontStyle: "italic", color: "#555" }}>
-                      You voted on this poll.
-                    </p>
-                  )}
-                </div>
+              <div
+                key={poll.pollForm_id}
+                className="poll-card"
+                onClick={() => navigate(`/polls/${poll.pollForm_id}`)}
+              >
+                <h3>{poll.title}</h3>
+                {filterStatus === "createdPolls" ? (
+                  <>
+                    <p>{poll.description}</p>
+                    <p>Status: {poll.status}</p>
+                    <p>Options: {poll.pollElements?.length || 0}</p>
+                    {poll.picture && (
+                      <img
+                        src={poll.picture}
+                        alt="Poll"
+                        style={{ maxWidth: "200px", maxHeight: "150px" }}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <p style={{ fontStyle: "italic", color: "#555" }}>
+                    You voted on this poll.
+                  </p>
+                )}
 
                 {filterStatus === "createdPolls" && (
-                  <div style={{ marginTop: "10px" }}>
-                    {poll.status === "draft" && (
-                      <>
-                        <button onClick={() => handleDelete(poll.pollForm_id)}>
-                          Delete
-                        </button>
-                        <button
-                          onClick={() =>
-                            navigate(`/polls/edit/${poll.pollForm_id}`)
-                          }
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => handlePublish(poll.pollForm_id)}>
-                          Publish
-                        </button>
-                        <button
-                          onClick={() => handleDuplicate(poll.pollForm_id)}
-                        >
-                          Duplicate
-                        </button>
-                      </>
-                    )}
-                    {poll.status === "published" && (
-                      <button onClick={() => handleEnd(poll.pollForm_id)}>
-                        End
-                      </button>
-                    )}
+                  <div
+                    style={{ marginTop: "10px" }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => handleDelete(poll.pollForm_id)}
+                      className="delete-btn-creator"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigate(`/polls/edit/${poll.pollForm_id}`)
+                      }
+                      className="edit-btn-creator"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handlePublish(poll.pollForm_id)}
+                      className="Publish-btn-creator"
+                    >
+                      Publish
+                    </button>
+                    <button
+                      onClick={() => handleDuplicate(poll.pollForm_id)}
+                      className="duplicate-btn-creator"
+                    >
+                      Duplicate
+                    </button>
+                    <button
+                      onClick={() => handleEnd(poll.pollForm_id)}
+                      className="end-btn-creator"
+                    >
+                      End
+                    </button>
                   </div>
                 )}
-              </li>
+              </div>
             ))}
-        </ul>
+        </div>
       ) : (
         <p>No polls found.</p>
       )}
