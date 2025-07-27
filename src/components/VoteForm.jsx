@@ -13,6 +13,7 @@ function VoteForm() {
     };
   }, []);
 
+  const [savedData, setSavedData] = useState(null);
   const [pollForm, setPollForm] = useState([]);
   const [userSelections, setUserSelections] = useState([]);
   const [hasVoted, setHasVoted] = useState(false);
@@ -26,6 +27,7 @@ function VoteForm() {
         `http://localhost:8080/api/PollForm/${pollFormId}`
       );
       setPollForm(data || []);
+      setSavedData(data);
       if (data.hasVoted) {
         setHasVoted(true);
         setMessage("You have already voted on this poll.");
@@ -74,6 +76,29 @@ function VoteForm() {
       rank: userSelections[key],
     }));
 
+    const handleSave = async (event) => {
+      const formattedSelections = Object.keys(userSelections).map((key) => ({
+        element_id: Number(key),
+        rank: userSelections,
+      }));
+
+      try{
+        const res = await axios.patch("http://localhost:8080/api/vote/save-draft",
+          {
+             PollFormId: pollFormId,
+             partialRes: formattedSelections,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+         setMessage("Your vote draft has been saved.");
+      } catch(err){
+        console.error("Error saving draft: ", err);
+        setMessage("Could not save your draft p")
+      }
+    };
+
     const totalOptions = pollForm?.pollElements?.length || 0;
 
     if (formattedSelections.length !== totalOptions) {
@@ -113,7 +138,7 @@ function VoteForm() {
         setMessage("You have already voted on this poll.");
         setHasVoted(true);
       } else {
-        setMessage("Error submitting vote. Please try again later.");
+        setMessage("You need to log in or sign up to cast your vote.");
       }
       console.error(error);
       console.error();

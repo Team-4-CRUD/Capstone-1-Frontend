@@ -185,38 +185,47 @@ function ViewAllMyPolls() {
                     style={{ marginTop: "10px" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <button
-                      onClick={() => handleDelete(poll.pollForm_id)}
-                      className="delete-btn-creator"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() =>
-                        navigate(`/polls/edit/${poll.pollForm_id}`)
-                      }
-                      className="edit-btn-creator"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handlePublish(poll.pollForm_id)}
-                      className="Publish-btn-creator"
-                    >
-                      Publish
-                    </button>
+                    {poll.status === "draft" && (
+                      <>
+                        <button
+                          onClick={() => handleDelete(poll.pollForm_id)}
+                          className="delete-btn-creator"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(`/polls/edit/${poll.pollForm_id}`)
+                          }
+                          className="edit-btn-creator"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handlePublish(poll.pollForm_id)}
+                          className="Publish-btn-creator"
+                        >
+                          Publish
+                        </button>
+                      </>
+                    )}
+
+                    {/* Always allow duplication */}
                     <button
                       onClick={() => handleDuplicate(poll.pollForm_id)}
                       className="duplicate-btn-creator"
                     >
                       Duplicate
                     </button>
-                    <button
-                      onClick={() => handleEnd(poll.pollForm_id)}
-                      className="end-btn-creator"
-                    >
-                      End
-                    </button>
+
+                    {poll.status === "published" && (
+                      <button
+                        onClick={() => handleEnd(poll.pollForm_id)}
+                        className="end-btn-creator"
+                      >
+                        End
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

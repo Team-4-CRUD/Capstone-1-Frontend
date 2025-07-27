@@ -139,19 +139,8 @@ const PollMaker = () => {
               >
                 {formData.private
                   ? " Auth-Only Voting: ON"
-                  : " Public Voting: ON"}
+                  : " Auth-Only Voting: OFF"}
               </button>
-              <p
-                style={{
-                  fontSize: "0.9rem",
-                  marginTop: "0.5rem",
-                  color: "#666",
-                }}
-              >
-                {formData.private
-                  ? "Only logged-in users will be able to vote on this poll."
-                  : "Anyone with the link can vote on this poll."}
-              </p>
             </div>
 
             {/* Poll Options */}

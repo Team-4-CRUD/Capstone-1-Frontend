@@ -101,7 +101,7 @@ const Profile = ({ userInfo, setUser }) => {
 
       {formData?.isAdmin && (
         <p style={{ color: "green", marginLeft: "5rem", fontWeight: "bold" }}>
-           Admin privileges.
+          Admin privileges.
         </p>
       )}
 
@@ -110,7 +110,7 @@ const Profile = ({ userInfo, setUser }) => {
         <div className="profile-info-container">
           <div className="user-info-container">
             <img src={formData.profilePicture} alt="user" />
-            <p>{userInfo.username}</p>
+           {userInfo && <p>{userInfo?.username}</p>} 
           </div>
           <div className="edit-btn-container">
             {!isEditing ? (
