@@ -3,8 +3,16 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "../styles/CreatorPollsStyles.css";
 
 function ViewAllCreatorPolls() {
+  useEffect(() => {
+    document.body.classList.add("Creator-page");
+    return () => {
+      document.body.classList.remove("Creator-page");
+    };
+  }, []);
+
   const [dataPoll, setDataPoll] = useState([]);
   const { user } = useAuth();
 
@@ -105,7 +113,6 @@ function ViewAllCreatorPolls() {
   return (
     <div>
       <h1>{user.username} PollForms</h1>
-      
 
       <ul>
         {polls.length > 0 ? (
