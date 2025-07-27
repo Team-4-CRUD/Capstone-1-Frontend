@@ -6,3 +6,18 @@
   border: 0;
   box-sizing: border-box; 
 }
+
+
+body.result-page {
+   height: 100%;
+    overflow-x: hidden;
+    background-color: #D5E0CF;
+}
+
+.results-title {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-family: Inconsolata, 'Arial';
+  font-weight: 600;
+}
