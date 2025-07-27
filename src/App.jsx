@@ -8,9 +8,9 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
-import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
+import ViewAllMyPolls from "./components/ViewAllMyPolls";
 import { API_URL } from "./shared";
-import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+import { useAuth, AuthProvider } from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
 import VoteForm from "./components/VoteForm";
@@ -31,7 +31,8 @@ const App = () => {
         const res = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
-        setUser(res.data);
+        console.log("App: user from /me:", res.data);
+        setUser(res.data); // ✅ FIXED HERE
       } catch {
         console.log("Not authenticated");
         setUser(null);
@@ -59,12 +60,15 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
-          <Route path="/MyPolls" element={<ViewAllCreatorPolls />} />
+          <Route path="/MyPolls" element={<ViewAllMyPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
           <Route path="/results/:pollFormId" element={<ViewVote />} />
-          <Route path="/profile" element={<Profile userInfo={user} />} />
+          <Route
+            path="/profile"
+            element={<Profile userInfo={user} setUser={setUser} />}
+          />
           <Route path="/polls/edit/:id" element={<EditPoll />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -45,7 +45,9 @@ function VoteForm() {
         setHasVoted(true);
         setMessage("You have already voted on this poll.");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error checking if voted: ", error);
+    }
   };
 
   useEffect(() => {
@@ -103,7 +105,11 @@ function VoteForm() {
           withCredentials: true,
         }
       );
+<<<<<<< HEAD
       console.log(res.data);
+=======
+      console.log(res);
+>>>>>>> origin/jocsan
       setHasVoted(true);
       setMessage("Thank you for voting! Your response has been recorded.");
     } catch (error) {
@@ -114,8 +120,11 @@ function VoteForm() {
         setMessage("Error submitting vote. Please try again later.");
       }
       console.error(error);
+<<<<<<< HEAD
       console.error();
       console.log("Error sending data", error);
+=======
+>>>>>>> origin/jocsan
     }
   };
 

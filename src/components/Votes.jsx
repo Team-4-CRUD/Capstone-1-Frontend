@@ -38,17 +38,19 @@ const ViewVote = () => {
 
   return (
     <div>
-      {Array.isArray(result) ? (
+      {result?.tie ? (
         <div>
           <h2>🤝 It's a Tie!</h2>
           <ul>
-            {result.map((name, idx) => (
-              <li key={idx}>🏆 {name}</li>
-            ))}
+            {Array.isArray(result.winner) ? (
+              result.winner.map((name, idx) => <li key={idx}>🏆 {name}</li>)
+            ) : (
+              <li>🏆 {result.winner}</li>
+            )}
           </ul>
         </div>
       ) : (
-        <h2>🏆 Winner: {result}</h2>
+        <h2>🏆 Winner: {result?.winner}</h2>
       )}
     </div>
   );
