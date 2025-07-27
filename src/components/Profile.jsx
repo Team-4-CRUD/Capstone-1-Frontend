@@ -101,7 +101,7 @@ const Profile = ({ userInfo, setUser }) => {
 
       {formData?.isAdmin && (
         <p style={{ color: "green", marginLeft: "5rem", fontWeight: "bold" }}>
-          You have an Admin account.
+           Admin privileges.
         </p>
       )}
 
