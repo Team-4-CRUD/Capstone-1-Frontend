@@ -701,7 +701,7 @@ hr {
     height: 390px;
     position: relative;
     background-color: #ffffff;
-    top: 145px;
+    top: 215px;
     left: 71px;
     border-radius: 1rem 1rem 0 0;
     transition: all ease 0.3s;
@@ -713,7 +713,7 @@ hr {
     height: 420px; 
     position: fixed;
     right: 45px;
-    top: 305px; 
+    top: 400px; 
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
