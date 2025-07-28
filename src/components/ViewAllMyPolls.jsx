@@ -122,6 +122,14 @@ function ViewAllMyPolls() {
     return <p className="auth-message">Please log in to view your polls.</p>;
   }
 
+  // Helper to get status based on endDate
+  const getPollStatus = (poll) => {
+    if (poll.endDate && new Date(poll.endDate) <= new Date()) {
+      return "ended";
+    }
+    return poll.status;
+  };
+
   return (
     <div className="creator-container">
       <div className="nav-container-creator">
@@ -158,69 +166,72 @@ function ViewAllMyPolls() {
         <div className="poll-grid-creator">
           {dataPoll
             .filter((poll) => poll && poll.pollForm_id)
-            .map((poll) => (
-              <div key={poll.pollForm_id} className="poll-card">
-                <h3>{poll.title}</h3>
-                {filterStatus === "createdPolls" ? (
-                  <>
-                    <p>{poll.description}</p>
-                    <p>Status: {poll.status}</p>
-                    <p>Options: {poll.pollElements?.length || 0}</p>
-                    {poll.picture && (
-                      <img
-                        src={poll.picture}
-                        alt="Poll"
-                        style={{ maxWidth: "200px", maxHeight: "150px" }}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <p style={{ fontStyle: "italic", color: "#555" }}>
-                    You voted on this poll.
-                  </p>
-                )}
+            .map((poll) => {
+              const status = getPollStatus(poll);
+              return (
+                <div key={poll.pollForm_id} className="poll-card">
+                  <h3>{poll.title}</h3>
+                  {filterStatus === "createdPolls" ? (
+                    <>
+                      <p>{poll.description}</p>
+                      <p>Status: {status}</p>
+                      <p>Options: {poll.pollElements?.length || 0}</p>
+                      {poll.picture && (
+                        <img
+                          src={poll.picture}
+                          alt="Poll"
+                          style={{ maxWidth: "200px", maxHeight: "150px" }}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <p style={{ fontStyle: "italic", color: "#555" }}>
+                      You voted on this poll.
+                    </p>
+                  )}
 
-                {filterStatus === "createdPolls" && (
-                  <div
-                    style={{ marginTop: "10px" }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <button
-                      onClick={() => handleDelete(poll.pollForm_id)}
-                      className="delete-btn-creator"
+                  {filterStatus === "createdPolls" && (
+                    <div
+                      style={{ marginTop: "10px" }}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() =>
-                        navigate(`/polls/edit/${poll.pollForm_id}`)
-                      }
-                      className="edit-btn-creator"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handlePublish(poll.pollForm_id)}
-                      className="Publish-btn-creator"
-                    >
-                      Publish
-                    </button>
-                    <button
-                      onClick={() => handleDuplicate(poll.pollForm_id)}
-                      className="duplicate-btn-creator"
-                    >
-                      Duplicate
-                    </button>
-                    <button
-                      onClick={() => handleEnd(poll.pollForm_id)}
-                      className="end-btn-creator"
-                    >
-                      End
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
+                      <button
+                        onClick={() => handleDelete(poll.pollForm_id)}
+                        className="delete-btn-creator"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() =>
+                          navigate(`/polls/edit/${poll.pollForm_id}`)
+                        }
+                        className="edit-btn-creator"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handlePublish(poll.pollForm_id)}
+                        className="Publish-btn-creator"
+                      >
+                        Publish
+                      </button>
+                      <button
+                        onClick={() => handleDuplicate(poll.pollForm_id)}
+                        className="duplicate-btn-creator"
+                      >
+                        Duplicate
+                      </button>
+                      <button
+                        onClick={() => handleEnd(poll.pollForm_id)}
+                        className="end-btn-creator"
+                      >
+                        End
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
         </div>
       ) : (
         <p>No polls found.</p>
