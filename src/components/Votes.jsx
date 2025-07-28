@@ -61,8 +61,8 @@ const ViewVote = () => {
     fetchResult();
   }, [pollFormId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>⚠️ {error}</p>;
+  if (loading) return <p className="loading-result-message">Loading...</p>;
+  if (error) return <p className="error-message-results">⚠️ {error}</p>;
 
   // Ensure chartData is always valid and chart renders even if no votes
   let chartLabels = [];

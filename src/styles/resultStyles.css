@@ -21,3 +21,24 @@ body.result-page {
   font-family: Inconsolata, 'Arial';
   font-weight: 600;
 }
+
+
+.error-message-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 2rem;
+  font-family: Manrope, 'Arial';
+  font-weight: bold;
+}
+
+.loading-result-message {
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 2rem;
+  font-family: Manrope, 'Arial';
+  font-weight: bold;
+}
