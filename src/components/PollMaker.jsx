@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/PollMakerStyles.css";
 import arrowLeft from "../assets/images/arrowLeft.png";
 import arrowRight from "../assets/images/arrowRight.png";
-import { Modal } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import ReactDOM from "react-dom";
+import Modal from "react-modal";
 
 const API_BASE = "http://localhost:8080/api";
 
@@ -17,18 +19,17 @@ const PollMaker = () => {
   }, []);
 
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     Element: [{ option: "", info: "", picture: "" }],
     endDate: "",
-    private: false, // ✅ Auth-only toggle field
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Count how many options have a non-empty 'option' field
     const filledOptions = formData.Element.filter(
       (el) => el.option.trim() !== ""
     );
@@ -38,11 +39,17 @@ const PollMaker = () => {
       return;
     }
 
+    // if (!formData.endDate || new Date(formData.endDate) <= new Date()) {
+    //   alert("Please set a valid future end date and time for the poll.");
+    //   return;
+    // }
+
     try {
       const res = await axios.post(`${API_BASE}/PollForm`, formData, {
         withCredentials: true,
       });
       console.log("Poll created", res.data);
+      console.log(formData);
       navigate("/MyPolls");
     } catch (err) {
       console.error("Error creating poll:", err);
@@ -51,13 +58,18 @@ const PollMaker = () => {
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    const updatedElements = [...formData.Element];
-
+    const AddEl = [...formData.Element];
+    AddEl[index] = {
+      ...AddEl[index],
+      [name]: value,
+    };
     if (name === "title" || name === "description") {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     } else {
-      updatedElements[index] = { ...updatedElements[index], [name]: value };
-      setFormData((prevData) => ({ ...prevData, Element: updatedElements }));
+      setFormData((prevData) => ({
+        ...prevData,
+        Element: AddEl,
+      }));
     }
   };
 
@@ -72,13 +84,7 @@ const PollMaker = () => {
       ...prevData,
       Element: [...prevData.Element, { option: "", info: "", picture: "" }],
     }));
-  };
-
-  const toggleAuthOnly = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      private: !prevData.private,
-    }));
+    console.log();
   };
 
   return (
@@ -195,9 +201,7 @@ const PollMaker = () => {
               </div>
             </Modal>
           </div>
-
           <h1 className="createPoll-title">Create Poll</h1>
-
           <form onSubmit={handleSubmit}>
             <div className="Title-container">
               <label htmlFor="title">Title:</label>
@@ -205,31 +209,32 @@ const PollMaker = () => {
                 type="text"
                 placeholder="Pick a Title"
                 name="title"
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 value={formData.title}
                 required
               />
             </div>
-
             <div className="description-container">
               <label htmlFor="description">Description:</label>
               <input
                 type="text"
                 placeholder="Write a Description"
                 name="description"
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 value={formData.description}
                 required
               />
             </div>
-
-            {/* ✅ Auth-only Toggle */}
-            <div className="auth-btn-container" style={{ marginTop: "1rem" }}>
+            <div className="auth-btn-container">
               <button
                 type="button"
                 className={`auth-btn${formData.private ? " active" : ""}`}
-                onClick={toggleAuthOnly}
-                aria-pressed={formData.private}
+                onClick={() =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    private: !prevData.private,
+                  }))
+                }
                 style={{
                   background: formData.private ? "#709255" : "#ffffff",
                   color: formData.private ? "#fff" : "#333",
@@ -240,16 +245,14 @@ const PollMaker = () => {
                   fontWeight: "bold",
                   fontFamily: "Outfit",
                   width: "380px",
-                  transition: "background 0.3s ease, color 0.3s ease",
                 }}
               >
                 {formData.private
-                  ? " Auth-Only Voting: ON"
-                  : " Auth-Only Voting: OFF"}
+                  ? "Auth-Only Voting: ON"
+                  : "Auth-Only Voting: OFF"}
               </button>
             </div>
 
-            {/* Poll Options */}
             {formData.Element.map((el, idx) => (
               <div key={idx} className="options-container">
                 <label htmlFor="option">Poll Option {idx + 1}:</label>
@@ -279,10 +282,8 @@ const PollMaker = () => {
                 /> */}
               </div>
             ))}
-
-            {/* Submit & Add Button */}
             <div className="submit-container">
-              <input type="submit" value="Submit Poll" />
+              <input type="submit" />
               <button type="button" onClick={handleAddElement}>
                 Add Option
               </button>
