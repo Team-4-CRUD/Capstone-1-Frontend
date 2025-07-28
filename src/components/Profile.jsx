@@ -101,7 +101,7 @@ const Profile = ({ userInfo, setUser }) => {
 
       {formData?.isAdmin && (
         <p style={{ color: "green", marginLeft: "5rem", fontWeight: "bold" }}>
-           Admin privileges.
+          Admin privileges.
         </p>
       )}
 
@@ -136,7 +136,7 @@ const Profile = ({ userInfo, setUser }) => {
           </div>
         </div>
 
-        <div className="firstLast-Name-container">
+        <div className="inputs-container">
           <div className="firstName-container">
             <label htmlFor="firstName">First Name:</label>
             <input
@@ -148,7 +148,7 @@ const Profile = ({ userInfo, setUser }) => {
               disabled={!isEditing}
             />
           </div>
-          <div className="lastName-Container">
+          <div className="lastName-container">
             <label htmlFor="lastName">Last Name:</label>
             <input
               type="text"
@@ -159,10 +159,7 @@ const Profile = ({ userInfo, setUser }) => {
               disabled={!isEditing}
             />
           </div>
-        </div>
-
-        <div className="email-pfp-container">
-          <div className="Email-container">
+          <div className="email-container">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -173,7 +170,7 @@ const Profile = ({ userInfo, setUser }) => {
               disabled={!isEditing}
             />
           </div>
-          <div className="pfp-Container">
+          <div className="pfp-container">
             <label htmlFor="profilePicture">Profile Picture:</label>
             <input
               type="url"
