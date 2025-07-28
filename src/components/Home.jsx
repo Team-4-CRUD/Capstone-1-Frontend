@@ -49,11 +49,11 @@ const Home = () => {
       <div className="vote-container">
         <div className="vote-title-flex">
           <p className="container-title-vote">Vote</p>
-          {/* <img
+          <img
             src={voteIcon}
             alt="Vote Icon"
             className="container-second-title"
-          /> */}
+          />
         </div>
         <hr />
         <div className="voting-grid-wrapper">

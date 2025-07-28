@@ -11,8 +11,7 @@
 
 
 body.home-page {
-  /* background-image: url('../assets/images/homeBG.jpg');  */
-  background-color: #D5E0CF;
+   background-image: url('../assets/images/homeBG.jpg');  
   background-size: cover;
   background-position: center;
   height: 100vh;
