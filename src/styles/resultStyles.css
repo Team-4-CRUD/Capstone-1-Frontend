@@ -13,17 +13,17 @@ body.result-page {
    background-color: #D5E0CF;
 }
 
-/* **Results Title Styles** */
+
 .results-title {
   text-align: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-family: Inconsolata, 'Arial';
   font-weight: 600;
-  font-size: 2rem; /* Default font size */
+  font-size: 2rem; 
 }
 
-/* **Error Message Styles** */
+
 .error-message-results {
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@ body.result-page {
   font-weight: bold;
 }
 
-/* **Loading Message Styles** */
+
 .loading-result-message {
   display: flex;
   align-items: center;
@@ -45,37 +45,37 @@ body.result-page {
   font-weight: bold;
 }
 
-/* **MEDIA QUERIES FOR RESPONSIVENESS** */
+
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
   .results-title {
-    font-size: 1.75rem; /* Reduce title font size for smaller screens */
+    font-size: 1.75rem; 
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
 
   .error-message-results,
   .loading-result-message {
-    font-size: 1.5rem; /* Smaller font size for mobile */
-    height: 70vh; /* Reduce the height for mobile screens */
-    padding: 0 1rem; /* Add horizontal padding for better spacing */
+    font-size: 1.5rem; 
+    height: 70vh; 
+    padding: 0 1rem; 
   }
 }
 
 /* Extra Small Devices (max-width: 480px) */
 @media (max-width: 480px) {
   .results-title {
-    font-size: 1.25rem; /* Further reduce font size */
+    font-size: 1.25rem; 
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
 
   .error-message-results,
   .loading-result-message {
-    font-size: 1.25rem; /* Further reduce font size */
-    height: auto; /* Allow height to adjust based on content */
-    padding: 0 0.5rem; /* Add more padding to prevent text from touching edges */
-    text-align: center; /* Ensure the text is centered */
+    font-size: 1.25rem; 
+    height: auto; 
+    padding: 0 0.5rem; 
+    text-align: center; 
   }
 }
