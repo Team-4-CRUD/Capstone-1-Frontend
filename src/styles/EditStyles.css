@@ -150,7 +150,7 @@ body.edit-page {
   .options-container-edit button, .update-poll-container input, .update-poll-container button {
     width: 100%; 
     padding: 1rem;
-    margin: 0.75rem 0; /* Add margin to space out buttons from other fields */
+    margin: 0.75rem 0; 
   }
 
   .delete-option-button, .update-poll-container {
@@ -173,13 +173,13 @@ body.edit-page {
   .options-container-edit button {
     font-size: 0.85rem; 
     padding: 0.8rem;
-    margin: 0.75rem 0; /* Add margin here as well */
+    margin: 0.75rem 0; 
   }
 
   .update-poll-container input, .update-poll-container button {
     font-size: 0.85rem; 
     padding: 0.8rem; 
-    margin: 0.75rem 0; /* Add margin here as well */
+    margin: 0.75rem 0;
   }
 }
 
@@ -201,7 +201,7 @@ body.edit-page {
 
   .options-container-edit button, .update-poll-container input, .update-poll-container button {
     width: 90%; 
-    margin: 1rem 0; /* Add margin to space out buttons */
+    margin: 1rem 0; 
   }
 }
 
@@ -221,6 +221,6 @@ body.edit-page {
 
   .options-container-edit button, .update-poll-container input, .update-poll-container button {
     width: 380px; 
-    margin: 1.5rem 0; /* Add margin to space out buttons */
+    margin: 1.5rem 0;
   }
 }
