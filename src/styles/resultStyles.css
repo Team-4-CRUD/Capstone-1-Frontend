@@ -7,22 +7,23 @@
   box-sizing: border-box; 
 }
 
-
 body.result-page {
    height: 100%;
-    overflow-x: hidden;
-    background-color: #D5E0CF;
+   overflow-x: hidden;
+   background-color: #D5E0CF;
 }
 
+/* **Results Title Styles** */
 .results-title {
   text-align: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-family: Inconsolata, 'Arial';
   font-weight: 600;
+  font-size: 2rem; /* Default font size */
 }
 
-
+/* **Error Message Styles** */
 .error-message-results {
   display: flex;
   align-items: center;
@@ -33,12 +34,48 @@ body.result-page {
   font-weight: bold;
 }
 
+/* **Loading Message Styles** */
 .loading-result-message {
-   display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   font-size: 2rem;
   font-family: Manrope, 'Arial';
   font-weight: bold;
+}
+
+/* **MEDIA QUERIES FOR RESPONSIVENESS** */
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .results-title {
+    font-size: 1.75rem; /* Reduce title font size for smaller screens */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .error-message-results,
+  .loading-result-message {
+    font-size: 1.5rem; /* Smaller font size for mobile */
+    height: 70vh; /* Reduce the height for mobile screens */
+    padding: 0 1rem; /* Add horizontal padding for better spacing */
+  }
+}
+
+/* Extra Small Devices (max-width: 480px) */
+@media (max-width: 480px) {
+  .results-title {
+    font-size: 1.25rem; /* Further reduce font size */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .error-message-results,
+  .loading-result-message {
+    font-size: 1.25rem; /* Further reduce font size */
+    height: auto; /* Allow height to adjust based on content */
+    padding: 0 0.5rem; /* Add more padding to prevent text from touching edges */
+    text-align: center; /* Ensure the text is centered */
+  }
 }
