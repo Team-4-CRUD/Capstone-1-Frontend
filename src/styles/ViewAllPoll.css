@@ -1,31 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-
+/* Reset global margins and padding */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
- body.Allpoll-page{
+/* Body and background color */
+body.Allpoll-page {
     height: 100%;
     overflow-x: hidden;
     background-color: #D5E0CF;
 }
 
+/* Main container */
 .container {
     height: 100%;
     overflow-y: auto;
-    margin: 4.813rem 6.563rem 0rem 6.563rem;  /* top | right | bottom | left */
+    margin: 4.813rem 6.563rem 0rem 6.563rem;
 }
 
-
+/* Flexbox layout for various elements */
 .flexAllpoll {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
+/* View poll title styling */
 .viewPoll-title {
     font-family: Outfit, 'Arial';
     font-size: 1rem;
@@ -33,8 +36,9 @@
     margin-right: 8px;
 }
 
+/* Dropdown styling */
 .selection-dropdown-allPolls {
-     width: 200px;
+    width: 200px;
     padding: 0.75rem;
     font-family: Outfit, 'Arial';
     font-size: 1rem;
@@ -46,7 +50,7 @@
     outline: none;
 }
 
-
+/* All polls title */
 .allpolls-title {
     font-family: Inconsolata, 'Arial';
     font-size: 3rem;
@@ -55,9 +59,10 @@
     margin-bottom: 0.813rem;
 }
 
+/* Search bar styling */
 .all-polls-search-bar {
     width: 369px;
-    padding: 0.7rem; /* top | right | bottom | left */
+    padding: 0.7rem;
     font-size: 1rem;
     font-family: Literata, 'Arial';
     border: 2px solid #3E5622;
@@ -66,24 +71,24 @@
 
 .all-polls-search-bar::placeholder {
     color: black;
-    font-size: 1rem
+    font-size: 1rem;
 }
 
 .all-polls-search-bar:focus {
     outline: none;
 }
 
+/* Polls grid layout */
 .Allpolls-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 31px;
     height: 100%;
     overflow-y: auto;
-     margin: 2.7rem 6.563rem 0rem 6.563rem;
-     overflow-y: auto;
-     overflow: visible;
+    margin: 2.7rem 6.563rem 0rem 6.563rem;
 }
 
+/* Individual poll box styling */
 .box-1 {
     background-color: #709255;
     border: 2px solid #FFFFFF;
@@ -94,27 +99,25 @@
     height: 130px;
     cursor: pointer;
     transition: all ease 0.3s;
-    position: relative; /* Needed for tooltip positioning */
-    overflow: visible;
+    position: relative;
 }
 
 .poll-link {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    text-wrap: pretty;
     font-size: 1.125rem;
     font-family: Literata, 'Arial';
     color: #FFFFFF;
 }
 
 .box-1:hover {
-   background-color: #FFFFFF;
-   color: #709255;
-   border-color: #709255;
+    background-color: #FFFFFF;
+    color: #709255;
+    border-color: #709255;
 }
 
-
+/* No poll message styling */
 .no-poll-message {
     display: flex;
     align-items: center;
@@ -125,54 +128,129 @@
 }
 
 .text {
-  color: #333;
-  font-size: 18px;
-  cursor: pointer;
+    color: #333;
+    font-size: 18px;
+    cursor: pointer;
 }
 
+/* Tooltip styling */
 .tooltip-container {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .tooltip {
-  visibility: hidden;
-  width: 80px;
-  background-color: #ffffff;
-  color: #3E5622;
-  text-align: center;
-  border-radius: 6px;
-  padding: 3px 0;
-  position: absolute;
-  z-index: 9999;
-  left: 50%;
-  bottom: -30px; /* adjust as needed */
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  font-size: 0.9rem;
-  border: 1px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    visibility: hidden;
+    width: 80px;
+    background-color: #ffffff;
+    color: #3E5622;
+    text-align: center;
+    border-radius: 6px;
+    padding: 3px 0;
+    position: absolute;
+    z-index: 9999;
+    left: 50%;
+    bottom: -30px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9rem;
+    border: 1px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-
-
 
 .tooltip-container:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
+/* Media Queries for Responsiveness */
 
-/* .home-nav {
-     display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
+/* Tablet and below (max-width: 768px) */
+@media (max-width: 768px) {
+
+    /* Title */
+    .allpolls-title {
+        font-size: 2rem; /* Smaller font for mobile */
+    }
+
+    /* Polls Grid */
+    .Allpolls-grid {
+        grid-template-columns: repeat(4, 1fr); /* Reduce columns for tablets */
+        gap: 15px; /* Adjust gap between boxes */
+        margin: 2.7rem 3rem 0rem 3rem; /* Reduce margin */
+    }
+
+    /* Poll box */
+    .box-1 {
+        width: 100%; /* Ensure the box takes full width on smaller screens */
+        height: auto; /* Let height adjust to content */
+        padding: 1rem; /* Add padding for mobile */
+    }
+
+    /* Poll link */
+    .poll-link {
+        font-size: 1rem; /* Reduce font size */
+    }
+
+    /* Search bar */
+    .all-polls-search-bar {
+        width: 100%; /* Full width search bar */
+        margin-bottom: 1rem; /* Space below search bar */
+    }
+
+    /* Dropdown */
+    .selection-dropdown-allPolls {
+        width: 100%; /* Full width dropdown */
+        padding: 0.8rem; /* Adjust padding */
+    }
+
+    /* No poll message */
+    .no-poll-message {
+        font-size: 1.5rem; /* Adjust font size */
+    }
 }
 
-.home-nav a {
-    font-size: 1rem;
-    font-family: Inconsolata, 'Arial';
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-} */
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+
+    /* Title */
+    .allpolls-title {
+        font-size: 1.5rem; /* Further reduce title font size */
+    }
+
+    /* Polls Grid */
+    .Allpolls-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+        gap: 10px; /* Smaller gap between items */
+        margin: 2.7rem 1rem 0rem 1rem; /* Reduce margin */
+    }
+
+    /* Poll box */
+    .box-1 {
+        width: 100%; /* Full width on small screens */
+        height: 100px; /* Adjust height for mobile */
+    }
+
+    /* Poll link */
+    .poll-link {
+        font-size: 0.9rem; /* Reduce font size */
+    }
+
+    /* Search bar */
+    .all-polls-search-bar {
+        width: 100%; /* Full width search bar */
+        margin-bottom: 1rem; /* Space below */
+    }
+
+    /* Dropdown */
+    .selection-dropdown-allPolls {
+        width: 100%; /* Full width dropdown */
+    }
+
+    /* No poll message */
+    .no-poll-message {
+        font-size: 1.25rem; /* Adjust font size */
+    }
+}
+

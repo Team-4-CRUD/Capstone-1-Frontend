@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 *, *::before, *::after {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box; 
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
 }
-
 
 body.profile-page {
     background-color: #D5E0CF;
@@ -14,49 +13,55 @@ body.profile-page {
     overflow-x: hidden;
 }
 
-
 .profile-title {
     font-family: Inconsolata, "Arial";
     font-size: 2rem;
     font-weight: normal;
-    margin: 4.25rem auto 2.688rem 5rem;  /* top | right | bottom | left */
+    margin: 4.25rem auto 2.688rem;
+    text-align: center;
 }
 
-
-
 .profile-container {
-  background-color: #fff;
-  width: 1250px;
-  height: 455px;
-  border-radius: 12px;
-  margin: 0 auto 0rem 5rem;
+    background-color: #fff;
+    width: 100%;
+    max-width: 1250px;
+    height: auto;
+    border-radius: 12px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
 .linear-gradient {
     width: 100%;
     height: 20%;
     background: linear-gradient(to right, #709255, rgba(148, 180, 106, 0.55));
-    border-radius: 12px 12px  0 0;
+    border-radius: 12px 12px 0 0;
 }
 
 .profile-info-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
-    margin: 1.25rem 1.375rem 1.5rem 1.375rem;
+    margin-bottom: 2rem;
 }
 
 .user-info-container {
-display: flex;
-align-items: center;
-gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .user-info-container > img {
     background-color: black;
-    width: 80px;
-    height: auto;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
 }
 
@@ -64,6 +69,7 @@ gap: 1rem;
     font-size: 1.75rem;
     font-family: Outfit, 'Arial';
     font-weight: normal;
+    text-align: center;
 }
 
 .edit-btn, .save-btn {
@@ -84,12 +90,12 @@ gap: 1rem;
     border: 2px solid #709255;
 }
 
-.edit-btn:active, .save-btn:active, .cancel-btn:active{
+.edit-btn:active, .save-btn:active, .cancel-btn:active {
     transform: scale(1.1);
 }
 
 .save-btn {
-  margin-right: 20px; 
+    margin-right: 20px;
 }
 
 .cancel-btn {
@@ -109,34 +115,86 @@ gap: 1rem;
     color: #ffffff;
 }
 
-
-
-.firstLast-Name-container, .email-pfp-container {
-    margin: 0 1.375rem 1rem 2rem; /* top | right | bottom | left */
+.inputs-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    width: 95%;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
-
-.firstName-container label , .lastName-Container label , .Email-container label, .pfp-Container label{
-    font-family:  Literata, 'Arial';
-    font-size: 1rem;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 6px;
+.inputs-container div {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.firstName-container input, .lastName-Container input, .Email-container input, .pfp-Container input {
-    width: 500px;
+.inputs-container input {
+    width: 100%;
     padding: 1rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-family: Work Sans, 'Arial';
-    border-radius: 24px;
+    border-radius: 8px;
     border: 1px solid #709255;
 }
 
-.firstName-container input:focus, .lastName-Container input:focus, .Email-container input:focus, .pfp-Container input:focus {
+.inputs-container input:focus {
     outline: none;
+}
+
+@media (max-width: 768px) {
+    .profile-title {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .profile-container {
+        padding: 1.5rem;
+    }
+
+    .user-info-container > img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .inputs-container div {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .edit-btn, .save-btn, .cancel-btn {
+        width: 100%;
+        font-size: 0.875rem;
+    }
+
+    .profile-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-title {
+        font-size: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .profile-container {
+        padding: 1rem;
+    }
+
+    .user-info-container > img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .inputs-container div {
+        width: 100%;
+    }
+
+    .inputs-container input {
+        font-size: 0.875rem;
+    }
 }
