@@ -125,7 +125,7 @@ function ViewAllPoll() {
                 >
                   <img src={Link} alt="Link Png" />
                 </span>
-                <p>Current Votes: {poll.totalVotes}</p>
+                <p>Votes: {poll.totalVotes}</p>
               </div>
             </NavLink>
           ))}

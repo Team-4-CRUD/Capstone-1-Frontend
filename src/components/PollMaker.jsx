@@ -269,14 +269,14 @@ const PollMaker = () => {
                   value={el.info}
                   required
                 />
-                <input
+                {/* <input
                   onChange={(e) => handleChange(e, idx)}
                   type="url"
                   name="picture"
                   placeholder="Choose a picture"
                   value={el.picture}
                   required
-                />
+                /> */}
               </div>
             ))}
 

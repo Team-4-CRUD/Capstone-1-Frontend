@@ -95,7 +95,7 @@ function VoteForm() {
       setMessage("Draft saved successfully.");
     } catch (err) {
       console.error("Error saving draft:", err);
-      setMessage("Could not save your draft. Please try again.");
+      setMessage(" Log in to save your vote. ");
     }
   };
 
@@ -146,7 +146,7 @@ function VoteForm() {
         setMessage("You have already voted on this poll.");
         setHasVoted(true);
       } else {
-        setMessage("Error submitting vote. Please try again later.");
+        setMessage("Please sign up or log in to cast your vote.");
       }
       console.error("Error submitting vote:", error);
     }
