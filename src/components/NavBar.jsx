@@ -5,15 +5,14 @@ import axios from "axios";
 
 const NavBar = ({ user, onLogout }) => {
   const [userPfp, setUserPfp] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu visibility
 
   useEffect(() => {
     if (user) {
-      // Prefer localStorage profilePicture if available
       const savedProfilePicture = localStorage.getItem("profilePicture");
       if (savedProfilePicture) {
         setUserPfp(savedProfilePicture);
       } else {
-        // Fallback: fetch from backend
         const fetchUserData = async () => {
           try {
             const res = await axios.get(`http://localhost:8080/api/users/me`, {
@@ -31,7 +30,7 @@ const NavBar = ({ user, onLogout }) => {
     }
   }, [user]);
 
-  // Listen for changes to localStorage profilePicture (e.g., after profile update)
+  // Listen for changes to localStorage profilePicture
   useEffect(() => {
     const handleStorage = (e) => {
       if (e.key === "profilePicture") {
@@ -56,13 +55,24 @@ const NavBar = ({ user, onLogout }) => {
     };
   }, []);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-brand">
         <Link to="/">Capstone I</Link>
       </div>
 
-      <div className="nav-links">
+      {/* Hamburger Menu Button (visible on small/medium screens) */}
+      <div className="hamburger-menu" onClick={toggleMenu}>
+        <span className="hamburger-icon"></span>
+        <span className="hamburger-icon"></span>
+        <span className="hamburger-icon"></span>
+      </div>
+
+      <div className={`nav-links ${isMenuOpen ? "active" : ""}`}>
         <div className="left-links">
           {!user && (
             <>
@@ -91,7 +101,6 @@ const NavBar = ({ user, onLogout }) => {
               All Polls
             </Link>
             <div className="user-container">
-              {/* Use the fetched profile picture */}
               <Link to="/profile">
                 <img
                   src={userPfp || "https://robohash.org/flash"}
