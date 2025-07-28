@@ -1,26 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
- body.poll-form-page {
+body.poll-form-page {
     height: 100%;
     overflow-x: hidden;
     background-color: #D5E0CF;
 }
 
 .poll-container {
-  height: 100%;
-  overflow-y: auto;
-  margin: 6.563rem 3.75rem;
-  margin: 0 3.75rem;
+    height: 100%;
+    overflow-y: auto;
+    margin: 6.563rem 3.75rem;
 }
-
-
 
 .exit-nav {
     display: flex;
@@ -36,10 +32,10 @@
     color: black;
 }
 
- .poll-info {
+.poll-info {
     width: 389px;
     height: 375px;
-} 
+}
 
 .poll-title {
     font-size: 3.75rem;
@@ -60,10 +56,9 @@
 }
 
 .poll-grid {
-    display:  flex;
+    display: flex;
     margin-top: 2rem;
 }
-
 
 .options-div {
     display: flex;
@@ -110,7 +105,6 @@
     align-items: center;
 }
 
-
 .options-div {
     text-align: center;
 }
@@ -125,8 +119,6 @@
     font-weight: 600;
     line-height: 2.188rem;
 }
-
-
 
 .submit-button {
     width: 300px;
@@ -144,4 +136,75 @@
 .submit-button:hover {
     background-color: #709255;
     color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .poll-title {
+        font-size: 2.5rem;
+        width: auto;
+    }
+
+    .poll-description {
+        font-size: 1rem;
+    }
+
+    .poll-info {
+        width: 100%;
+        height: auto;
+    }
+
+    .poll-grid {
+        flex-direction: column;
+    }
+
+    .options-div {
+        width: 90%;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .poll-options-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-left: 0;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .poll-title {
+        font-size: 1.8rem;
+    }
+
+    .poll-description {
+        font-size: 0.9rem;
+    }
+
+    .poll-info {
+        width: 100%;
+        height: auto;
+    }
+
+    .poll-grid {
+        flex-direction: column;
+    }
+
+    .options-div {
+        width: 80%;
+        height: auto;
+    }
+
+    .poll-options-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 0.7rem;
+    }
 }
