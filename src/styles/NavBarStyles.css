@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inconsolata:wght@200..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-
+/* Base Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -28,16 +28,26 @@
   color: #709255;
 }
 
+/* Hamburger Menu */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  width: 30px;
+  height: 4px;
+  background-color: #3E5622;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* Menu Links */
 .nav-links {
   display: flex;
   align-items: center;
-}
-
-.auth-links {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  font-weight: bold;
 }
 
 .nav-link {
@@ -60,6 +70,27 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.user-container > a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.user-pfp {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: black;
 }
 
 .username {
@@ -90,25 +121,85 @@
   background-color: #c82333;
 }
 
+/* Media Queries */
 
-/* user pfp styles */
-.user-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* For screens below 1280px */
+@media (max-width: 1280px) {
+  .hamburger-menu {
+    display: flex; /* Make hamburger menu visible */
+  }
 
-  cursor: pointer;
+  .nav-links {
+    display: none; /* Hide the nav links by default */
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 4.30rem;
+    left: 0;
+    z-index: 99;
+  }
+
+  .nav-links.active {
+    display: flex; /* Show the links when active */
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .user-section {
+    flex-direction: column;
+   align-items: center;
+
+  }
+
+ 
 }
 
-.user-container > a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+/* For screens 1536px and above */
+@media (min-width: 1536px) {
+  .navbar {
+    padding: 1.5rem 4rem;
+    height: 6rem;
+  }
+
+  .nav-brand a {
+    font-size: 2.25rem;
+  }
+
+  .nav-link {
+    font-size: 1.25rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .username {
+    font-size: 1.25rem;
+  }
+
+  .user-pfp {
+    width: 45px;
+    height: 45px;
+  }
+
+  .logout-btn {
+    font-size: 1.125rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .user-section {
+    gap: 2rem;
+  }
 }
 
-.user-pfp {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  background-color: black;
+@media (max-width: 768px) {
+  .nav-brand a {
+    font-size: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
 }
