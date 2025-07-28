@@ -30,20 +30,20 @@ const Home = () => {
         </div>
         <hr />
         <div className="rectangle-grid">
-          <div className="s1">1</div>
-          <div className="s2">1</div>
-          <div className="s3">1</div>
-          <div className="s4">2</div>
-          <div className="s5">2</div>
-          <div className="s6">2</div>
-          <div className="s7">3</div>
-          <div className="s8">3</div>
-          <div className="s9">3</div>
-          <div className="s10">4</div>
-          <div className="s11">4</div>
-          <div className="s12">4</div>
-          <div className="s13">5</div>
-          <div className="s14">5</div>
+          <div className="s1"></div>
+          <div className="s2"></div>
+          <div className="s3"></div>
+          <div className="s4"></div>
+          <div className="s5"></div>
+          <div className="s6"></div>
+          <div className="s7"></div>
+          <div className="s8"></div>
+          <div className="s9"></div>
+          <div className="s10"></div>
+          <div className="s11"></div>
+          <div className="s12"></div>
+          <div className="s13"></div>
+          <div className="s14"></div>
         </div>
       </div>
       <div className="vote-container">

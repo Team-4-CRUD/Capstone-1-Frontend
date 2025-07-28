@@ -101,7 +101,7 @@ const NavBar = ({ user, onLogout }) => {
                 />
               </Link>
               <Link to="/profile">
-                <span className="username">{user.username}!</span>
+                <span className="username">{user.username}</span>
               </Link>
             </div>
             <button onClick={onLogout} className="logout-btn">

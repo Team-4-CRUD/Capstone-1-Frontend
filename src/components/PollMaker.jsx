@@ -1,12 +1,23 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import css page here
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/PollMakerStyles.css";
+import arrowLeft from "../assets/images/arrowLeft.png";
+import arrowRight from "../assets/images/arrowRight.png";
+import { Link } from "react-router-dom";
+import ReactDOM from "react-dom";
+import Modal from "react-modal";
 
 const API_BASE = "http://localhost:8080/api";
 
 const PollMaker = () => {
+  useEffect(() => {
+    document.body.classList.add("PollCreation-page");
+    return () => {
+      document.body.classList.remove("PollCreation-page");
+    };
+  }, []);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
@@ -62,6 +73,12 @@ const PollMaker = () => {
     }
   };
 
+  // Modal state
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
   const handleAddElement = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -72,92 +89,208 @@ const PollMaker = () => {
 
   return (
     <>
-      <h1>Poll Maker!</h1>
-      {/* <img className="react-logo" src="/react-logo.svg" alt="React Logo" /> */}
+      <div className="split-screen">
+        <div className="left-side-imgBg"></div>
+        <div className="right-side-poll-container">
+          <div className="nav-container">
+            <div className="home-nav">
+              <img src={arrowLeft} alt="home nav" />
+              <Link to="/">Back Home</Link>
+            </div>
+            <div
+              className="date-time-nav"
+              style={{ cursor: "pointer" }}
+              onClick={openModal}
+            >
+              <span
+                style={{
+                  textDecoration: "none",
+                  color: "#000000",
+                  fontWeight: 400,
+                  fontFamily: "Inconsolata",
+                }}
+              >
+                Set EndDate & Time
+              </span>
+              <img src={arrowRight} alt="time and nav nav" />
+            </div>
 
-      <p>Here you can create your own polls.</p>
-      <p>More features coming soon!</p>
-      <p>Stay tuned!</p>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="title"
-            placeholder="Pick a Title"
-            value={formData.title}
-            required
-          />
-          <input
-            onChange={handleChange}
-            type="text"
-            name="description"
-            placeholder="Write a Description"
-            value={formData.description}
-            required
-          />
-          <input
-            type="checkbox"
-            checked={formData.private || false}
-            onChange={(e) =>
-              setFormData((prevData) => ({
-                ...prevData,
-                private: e.target.checked,
-              }))
-            }
-            name="AuthUser"
-          />
-          <label htmlFor="AuthUser">
-            Allow only authenticated users to vote?
-          </label>
-        </div>
-
-        {formData.Element.map((el, idx) => (
-          <div key={idx}>
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="text"
-              name="option"
-              placeholder="Pick an Option"
-              value={el.option}
-              required
-            />
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="text"
-              name="info"
-              placeholder="Write some Info"
-              value={el.info}
-              required
-            />
-            <input
-              onChange={(e) => handleChange(e, idx)}
-              type="url"
-              name="picture"
-              placeholder="Choose a picture"
-              value={el.picture}
-              required
-            />
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              style={{
+                overlay: {
+                  backgroundColor: "rgba(0,0,0,0.4)",
+                  zIndex: 1000,
+                },
+                content: {
+                  top: "50%",
+                  left: "50%",
+                  right: "auto",
+                  bottom: "auto",
+                  marginRight: "-50%",
+                  transform: "translate(-50%, -50%)",
+                  borderRadius: "16px",
+                  padding: "2rem",
+                  minWidth: "320px",
+                  maxWidth: "90vw",
+                  boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+                },
+              }}
+              ariaHideApp={false}
+            >
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <button
+                  onClick={closeModal}
+                  style={{
+                    fontSize: "1.5rem",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <h2>Set End Date & Time</h2>
+                <input
+                  type="datetime-local"
+                  value={formData.endDate}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
+                  style={{
+                    fontSize: "1.1rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    margin: "1.5rem 0",
+                    width: "80%",
+                  }}
+                  min={new Date().toISOString().slice(0, 16)}
+                />
+                <div
+                  style={{
+                    color: "#709255",
+                    fontWeight: 500,
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {formData.endDate
+                    ? `Selected: ${new Date(formData.endDate).toLocaleString()}`
+                    : "No date/time selected"}
+                </div>
+                <button
+                  onClick={closeModal}
+                  style={{
+                    background: "#709255",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    padding: "0.5rem 1.5rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  Save & Close
+                </button>
+              </div>
+            </Modal>
           </div>
-        ))}
-        <input type="submit" />
-        <button type="button" onClick={handleAddElement}>
-          Add Option
-        </button>
-        <input
-          type="datetime-local"
-          name="endDate"
-          value={formData.endDate}
-          onChange={(e) =>
-            setFormData((prevData) => ({
-              ...prevData,
-              endDate: e.target.value,
-            }))
-          }
-        />
-        <label htmlFor="endDate">Poll End Date & Time</label>
-      </form>
+          <h1 className="createPoll-title">Create Poll</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="Title-container">
+              <label htmlFor="title">Title:</label>
+              <input
+                type="text"
+                placeholder="Pick a Title"
+                name="title"
+                onChange={handleChange}
+                value={formData.title}
+                required
+              />
+            </div>
+            <div className="description-container">
+              <label htmlFor="description">Description:</label>
+              <input
+                type="text"
+                placeholder="Write a Description"
+                name="description"
+                onChange={handleChange}
+                value={formData.description}
+                required
+              />
+            </div>
+            <div className="auth-btn-container">
+              <button
+                type="button"
+                className={`auth-btn${formData.private ? " active" : ""}`}
+                onClick={() =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    private: !prevData.private,
+                  }))
+                }
+                style={{
+                  background: formData.private ? "#709255" : "#ffffff",
+                  color: formData.private ? "#fff" : "#333",
+                  border: "1px solid #709255",
+                  borderRadius: "20px",
+                  padding: "1rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontFamily: "Outfit",
+                  width: "380px",
+                }}
+              >
+                {formData.private
+                  ? "Auth-Only Voting: ON"
+                  : "Auth-Only Voting: OFF"}
+              </button>
+            </div>
+
+            {formData.Element.map((el, idx) => (
+              <div key={idx} className="options-container">
+                <label htmlFor="option">Poll Option {idx + 1}:</label>
+                <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="text"
+                  name="option"
+                  placeholder="Pick an Option"
+                  value={el.option}
+                  required
+                />
+                <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="text"
+                  name="info"
+                  placeholder="Write some Info"
+                  value={el.info}
+                  required
+                />
+                {/* <input
+                  onChange={(e) => handleChange(e, idx)}
+                  type="url"
+                  name="picture"
+                  placeholder="Choose a picture"
+                  value={el.picture}
+                  required
+                /> */}
+              </div>
+            ))}
+            <div className="submit-container">
+              <input type="submit" />
+              <button type="button" onClick={handleAddElement}>
+                Add Option
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 };

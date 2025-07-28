@@ -8,9 +8,9 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import PollMaker from "./components/PollMaker";
 import NotFound from "./components/NotFound";
-import ViewAllCreatorPolls from "./components/ViewAllCreatorPolls";
+import ViewAllMyPolls from "./components/ViewAllMyPolls";
 import { API_URL } from "./shared";
-import { useAuth, AuthProvider } from "./context/AuthContext"; // context
+import { useAuth, AuthProvider } from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ViewSoloPF from "./components/ViewSoloPF";
 import VoteForm from "./components/VoteForm";
@@ -18,6 +18,8 @@ import ViewAllPoll from "./components/ViewAllPoll";
 import ViewVote from "./components/Votes";
 import Profile from "./components/Profile";
 import EditPoll from "./components/EditPoll";
+import ReactDOM from "react-dom";
+import Modal from "react-modal";
 
 const App = () => {
   const { user, setUser } = useAuth();
@@ -30,7 +32,7 @@ const App = () => {
           withCredentials: true,
         });
         console.log("App: user from /me:", res.data);
-        setUser(res.data.user);
+        setUser(res.data); // ✅ FIXED HERE
       } catch {
         console.log("Not authenticated");
         setUser(null);
@@ -58,7 +60,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
           <Route path="/pollmaker" element={<PollMaker />} />
-          <Route path="/MyPolls" element={<ViewAllCreatorPolls />} />
+          <Route path="/MyPolls" element={<ViewAllMyPolls />} />
           <Route path="/polls/:PollFormId" element={<ViewSoloPF />} />
           <Route path="/Vote/:pollFormId" element={<VoteForm />} />
           <Route path="/AllPolls" element={<ViewAllPoll />} />
@@ -84,4 +86,5 @@ const Root = () => (
 );
 
 const root = createRoot(document.getElementById("root"));
+Modal.setAppElement(root);
 root.render(<Root />);

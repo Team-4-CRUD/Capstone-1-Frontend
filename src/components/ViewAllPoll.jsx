@@ -19,17 +19,32 @@ function ViewAllPoll() {
     };
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:8080/api/PollForm");
-
-      setForms(data || []);
-    } catch (err) {
-      console.error("Error fetching poll forms!", err);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8080/api/PollForm");
+
+        // For each poll, fetch totalVotes
+        const updatedForms = await Promise.all(
+          data.map(async (poll) => {
+            try {
+              const res = await axios.get(
+                `http://localhost:8080/api/vote/TotalVoteCast/${poll.pollForm_id}`
+              );
+              //includes everything from the original poll, plus totalVotes
+              return { ...poll, totalVotes: res.data.totalVotes || 0 };
+            } catch {
+              return { ...poll, totalVotes: 0 };
+            }
+          })
+        );
+
+        setForms(updatedForms);
+      } catch (err) {
+        console.error("Error fetching forms:", err);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -52,19 +67,24 @@ function ViewAllPoll() {
         <img src={arrowLeft} alt="nav-btn" />
         <a href="/">Back Home</a>
       </div> */}{" "}
-      <div>
-        <label htmlFor="status-select">View Polls:</label>
-        <select
-          id="status-select"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option value="published">Published</option>
-          <option value="ended">Ended</option>
-        </select>
-      </div>
       <div className="container">
-        <h1 className="allpolls-title">All Polls</h1>
+        <div className="flexAllpoll">
+          <h1 className="allpolls-title">All Polls</h1>
+          <div>
+            <label htmlFor="status-select" className="viewPoll-title">
+              View Polls:
+            </label>
+            <select
+              id="status-select"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="selection-dropdown-allPolls"
+            >
+              <option value="published"> Published </option>
+              <option value="ended"> Results </option>
+            </select>
+          </div>
+        </div>
         <div className="search-container">
           <input
             type="text"
@@ -105,6 +125,7 @@ function ViewAllPoll() {
                 >
                   <img src={Link} alt="Link Png" />
                 </span>
+                <p>Votes: {poll.totalVotes}</p>
               </div>
             </NavLink>
           ))}

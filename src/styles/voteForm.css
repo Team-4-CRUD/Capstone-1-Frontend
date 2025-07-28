@@ -61,15 +61,53 @@
 
 .poll-grid {
     display:  flex;
-    
+    margin-top: 2rem;
 }
 
+
+.options-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: #709255;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    border: 2px solid #709255;
+    text-wrap: pretty;
+}
+
+.options-div select {
+    width: 70%;
+    background-color: #D5E0CF;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    border-radius: 6px;
+}
+
+.options-div select:focus {
+    outline: none;
+}
+
+.poll-options-form {
+    display: grid;
+    width: 100%;
+}
+
+.poll-options-form button {
+    display: block;
+    margin: 2rem auto 0 auto;
+}
 
 .poll-options-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2.875rem;
     margin-left: 7rem;
+    justify-items: center;
+    align-items: center;
 }
 
 
@@ -86,4 +124,24 @@
     font-family: Outfit, 'Arial';
     font-weight: 600;
     line-height: 2.188rem;
+}
+
+
+
+.submit-button {
+    width: 300px;
+    padding: 1rem;
+    background-color: #ffffff;
+    color: #709255;
+    font-weight: bold;
+    font-family: Outfit, 'Arial';
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #709255;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #709255;
+    color: #ffffff;
 }
