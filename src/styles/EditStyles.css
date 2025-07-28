@@ -21,7 +21,7 @@ body.edit-page {
 
 .left-side-Edit {
   flex: 1;
-  background-image: url('../assets/images/PollMakerBg.jpg'); 
+ background-color: #D5E0CF;
   background-size: cover;
   background-position: center;
 }
