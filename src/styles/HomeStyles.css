@@ -470,11 +470,7 @@ hr {
 /* For screens 1536px and up */
 @media (min-width: 1536px) {
   body.home-page {
-<<<<<<< HEAD
     background-image: url('../assets/images/homeBG.jpg');
-=======
-    background-color: #D5E0CF; /* Correct hashed URL */
->>>>>>> 67c60be6678f70afd2e1bcf53efb881d63be7d62
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -737,11 +733,7 @@ hr {
 /* md (641px to 1024px) */
 @media (min-width: 641px) and (max-width: 1023px) {
   body.home-page {
-<<<<<<< HEAD
      background-image: url('../assets/images/homeBG.jpg');
-=======
-    background-color: #D5E0CF;
->>>>>>> 67c60be6678f70afd2e1bcf53efb881d63be7d62
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -896,11 +888,7 @@ hr {
   }
 
   body.home-page {
-<<<<<<< HEAD
    background-image: url('../assets/images/homeBG.jpg');
-=======
-   background-color: #D5E0CF;
->>>>>>> 67c60be6678f70afd2e1bcf53efb881d63be7d62
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
