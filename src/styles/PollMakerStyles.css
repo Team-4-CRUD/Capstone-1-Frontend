@@ -23,10 +23,12 @@ body.PollCreation-page {
   background-image: url('../assets/images/PollMakerBg.jpg'); 
   background-size: cover;
   background-position: center;
+  flex: 1;
 }
 
 .right-side-poll-container {
   background-color: #ffffff; 
+  min-height: 100vh;
 }
 
 .nav-container {
