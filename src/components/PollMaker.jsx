@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/PollMakerStyles.css";
 import arrowLeft from "../assets/images/arrowLeft.png";
 import arrowRight from "../assets/images/arrowRight.png";
+import { Modal } from 'react-bootstrap';
 
 const API_BASE = "http://localhost:8080/api";
 
@@ -60,6 +61,12 @@ const PollMaker = () => {
     }
   };
 
+  // Modal state
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
   const handleAddElement = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -84,10 +91,109 @@ const PollMaker = () => {
               <img src={arrowLeft} alt="home nav" />
               <Link to="/">Back Home</Link>
             </div>
-            <div className="date-time-nav">
-              <Link to="/">Set EndDate & Time</Link>
-              <img src={arrowRight} alt="time nav" />
+            <div
+              className="date-time-nav"
+              style={{ cursor: "pointer" }}
+              onClick={openModal}
+            >
+              <span
+                style={{
+                  textDecoration: "none",
+                  color: "#000000",
+                  fontWeight: 400,
+                  fontFamily: "Inconsolata",
+                }}
+              >
+                Set EndDate & Time
+              </span>
+              <img src={arrowRight} alt="time and nav nav" />
             </div>
+
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              style={{
+                overlay: {
+                  backgroundColor: "rgba(0,0,0,0.4)",
+                  zIndex: 1000,
+                },
+                content: {
+                  top: "50%",
+                  left: "50%",
+                  right: "auto",
+                  bottom: "auto",
+                  marginRight: "-50%",
+                  transform: "translate(-50%, -50%)",
+                  borderRadius: "16px",
+                  padding: "2rem",
+                  minWidth: "320px",
+                  maxWidth: "90vw",
+                  boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+                },
+              }}
+              ariaHideApp={false}
+            >
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <button
+                  onClick={closeModal}
+                  style={{
+                    fontSize: "1.5rem",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <h2>Set End Date & Time</h2>
+                <input
+                  type="datetime-local"
+                  value={formData.endDate}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
+                  style={{
+                    fontSize: "1.1rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    margin: "1.5rem 0",
+                    width: "80%",
+                  }}
+                  min={new Date().toISOString().slice(0, 16)}
+                />
+                <div
+                  style={{
+                    color: "#709255",
+                    fontWeight: 500,
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {formData.endDate
+                    ? `Selected: ${new Date(formData.endDate).toLocaleString()}`
+                    : "No date/time selected"}
+                </div>
+                <button
+                  onClick={closeModal}
+                  style={{
+                    background: "#709255",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    padding: "0.5rem 1.5rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  Save & Close
+                </button>
+              </div>
+            </Modal>
           </div>
 
           <h1 className="createPoll-title">Create Poll</h1>

@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/voteForm.css";
-import { useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import arrowLeft from "../assets/images/arrowLeft.png";
 
 function VoteForm() {
+  const [pollForm, setPollForm] = useState([]);
+  const [userSelections, setUserSelections] = useState({});
+  const [hasVoted, setHasVoted] = useState(false);
+  const [message, setMessage] = useState("");
+  const [warnedAboutIncomplete, setWarnedAboutIncomplete] = useState(false);
+  const { pollFormId } = useParams();
+
   useEffect(() => {
     document.body.classList.add("poll-form-page");
     return () => {
@@ -13,21 +19,12 @@ function VoteForm() {
     };
   }, []);
 
-  const [savedData, setSavedData] = useState(null);
-  const [pollForm, setPollForm] = useState([]);
-  const [userSelections, setUserSelections] = useState([]);
-  const [hasVoted, setHasVoted] = useState(false);
-  const [message, setMessage] = useState("");
-  const [warnedAboutIncomplete, setWarnedAboutIncomplete] = useState(false);
-  const { pollFormId } = useParams();
-
   const fetchPollForm = async () => {
     try {
       const { data } = await axios.get(
         `http://localhost:8080/api/PollForm/${pollFormId}`
       );
       setPollForm(data || []);
-      setSavedData(data);
       if (data.hasVoted) {
         setHasVoted(true);
         setMessage("You have already voted on this poll.");
@@ -46,26 +43,60 @@ function VoteForm() {
       if (res.data.hasVoted) {
         setHasVoted(true);
         setMessage("You have already voted on this poll.");
+      } else {
+        fetchDraft();
       }
     } catch (error) {
       console.log("Error checking if voted: ", error);
     }
   };
 
-  useEffect(() => {
-    fetchPollForm();
-    checkIfVoted();
-  }, [pollFormId]);
-
-  useEffect(() => {
-    console.log("Updated pollForm:", pollForm);
-  }, [pollForm]);
+  const fetchDraft = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/drafts/draft/${pollFormId}`,
+        { withCredentials: true }
+      );
+      if (res.data.partialRes) {
+        const selections = {};
+        res.data.partialRes.forEach(({ elementId, rank }) => {
+          selections[elementId] = rank;
+        });
+        setUserSelections(selections);
+        setMessage("Loaded your saved draft.");
+      }
+    } catch (err) {
+      console.log("No draft found or error loading draft:", err);
+    }
+  };
 
   const handleRankSelection = (optionId, event) => {
     setUserSelections((prevSelections) => ({
       ...prevSelections,
       [optionId]: Number(event.target.value),
     }));
+  };
+
+  const handleSaveDraft = async () => {
+    const formattedSelections = Object.keys(userSelections).map((key) => ({
+      elementId: Number(key),
+      rank: userSelections[key],
+    }));
+
+    try {
+      await axios.patch(
+        "http://localhost:8080/api/drafts/save-draft",
+        {
+          PollFormId: pollFormId,
+          partialRes: formattedSelections,
+        },
+        { withCredentials: true }
+      );
+      setMessage("Draft saved successfully.");
+    } catch (err) {
+      console.error("Error saving draft:", err);
+      setMessage("Could not save your draft. Please try again.");
+    }
   };
 
   const handleFormSubmit = async (event) => {
@@ -75,29 +106,6 @@ function VoteForm() {
       elementId: Number(key),
       rank: userSelections[key],
     }));
-
-    const handleSave = async (event) => {
-      const formattedSelections = Object.keys(userSelections).map((key) => ({
-        element_id: Number(key),
-        rank: userSelections,
-      }));
-
-      try{
-        const res = await axios.patch("http://localhost:8080/api/vote/save-draft",
-          {
-             PollFormId: pollFormId,
-             partialRes: formattedSelections,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-         setMessage("Your vote draft has been saved.");
-      } catch(err){
-        console.error("Error saving draft: ", err);
-        setMessage("Could not save your draft p")
-      }
-    };
 
     const totalOptions = pollForm?.pollElements?.length || 0;
 
@@ -138,13 +146,16 @@ function VoteForm() {
         setMessage("You have already voted on this poll.");
         setHasVoted(true);
       } else {
-        setMessage("You need to log in or sign up to cast your vote.");
+        setMessage("Error submitting vote. Please try again later.");
       }
-      console.error(error);
-      console.error();
-      console.log("Error sending data", error);
+      console.error("Error submitting vote:", error);
     }
   };
+
+  useEffect(() => {
+    fetchPollForm();
+    checkIfVoted();
+  }, [pollFormId]);
 
   return (
     <>
@@ -155,9 +166,7 @@ function VoteForm() {
         </div>
         <div className="poll-grid">
           <div className="poll-info">
-            {pollForm && pollForm.title && (
-              <p className="poll-title">{pollForm.title}</p>
-            )}
+            {pollForm?.title && <p className="poll-title">{pollForm.title}</p>}
             <p className="poll-description">{pollForm.description}</p>
             {message && (
               <div
@@ -172,49 +181,57 @@ function VoteForm() {
             )}
           </div>
           <form onSubmit={handleFormSubmit} className="poll-options-form">
-            {pollForm.pollElements &&
-              Array.isArray(pollForm.pollElements) &&
-              pollForm.pollElements.length > 0 && (
-                <div className="poll-options-grid">
-                  {pollForm.pollElements.map((element, index) => {
-                    return (
-                      <div key={index} className="options-div">
-                        {/* Only render option name and dropdown */}
-                        <p>{element.option}</p>
-                        <select
-                          name="rank"
-                          id={`rank-${index}`}
-                          value={userSelections[element.element_id] || ""}
-                          onChange={(e) =>
-                            handleRankSelection(element.element_id, e)
-                          }
-                          disabled={hasVoted}
-                        >
-                          <option value="">Select rank</option>
-                          {[...Array(pollForm.pollElements.length)].map(
-                            (_, i) => (
-                              <option key={i} value={i + 1}>
-                                Rank {i + 1}
-                              </option>
-                            )
-                          )}
-                        </select>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+            {pollForm.pollElements?.length > 0 && (
+              <div className="poll-options-grid">
+                {pollForm.pollElements.map((element, index) => (
+                  <div key={index} className="options-div">
+                    <p>{element.option}</p>
+                    <select
+                      name="rank"
+                      id={`rank-${index}`}
+                      value={userSelections[element.element_id] || ""}
+                      onChange={(e) =>
+                        handleRankSelection(element.element_id, e)
+                      }
+                      disabled={hasVoted}
+                    >
+                      <option value="">Select rank</option>
+                      {[...Array(pollForm.pollElements.length)].map((_, i) => (
+                        <option key={i} value={i + 1}>
+                          Rank {i + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="button-container">
               <button className="submit-button" disabled={hasVoted}>
                 Submit
               </button>
+              {!hasVoted && (
+                <button
+                  type="button"
+                  className="save-draft-button"
+                  onClick={handleSaveDraft}
+                  style={{ marginLeft: "1rem" }}
+                >
+                  Save Draft
+                </button>
+              )}
             </div>
-            {/* Submit Button */}
           </form>
         </div>
       </div>
+    </>
+  );
+}
 
-      {/* <div className="poll-options-grid">
+export default VoteForm;
+
+{
+  /* <div className="poll-options-grid">
         <div className="options-div">
           <img src="/Rectangle 68.png" alt="Option 1" />
           <p>Take Care</p>
@@ -239,9 +256,11 @@ function VoteForm() {
           <img src="/Rectangle 73.png" alt="Option 6" />
           <p>$ome $exy $ongs 4 U</p>
         </div>
-      </div> */}
+      </div> */
+}
 
-      {/* {pollForm && pollForm.title && <h2>{pollForm.title}</h2>}
+{
+  /* {pollForm && pollForm.title && <h2>{pollForm.title}</h2>}
 
 {message && (
   <div
@@ -277,9 +296,5 @@ function VoteForm() {
         </div>
         ))}
         <button disabled={hasVoted}>Submit</button>
-        </form> */}
-    </>
-  );
+        </form> */
 }
-
-export default VoteForm;

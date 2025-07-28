@@ -226,6 +226,15 @@ function ViewAllMyPolls() {
                         End
                       </button>
                     )}
+
+                    {poll.status === "ended" && (
+                      <button
+                        onClick={() => handleDelete(poll.pollForm_id)}
+                        className="delete-btn-creator"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
